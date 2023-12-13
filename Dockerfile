@@ -3,7 +3,7 @@ FROM node:21.2.0-alpine3.17 AS build
 WORKDIR /app
 COPY . /app
 
-RUN npm install
+RUN npm install --omit=dev
 RUN npm run build
 
 FROM nginx:1.25.3
