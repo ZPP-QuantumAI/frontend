@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_URL } from "./constants";
 
 function Graph({ graph, setGraph }) {
   const [graphs, setGraphs] = useState(new Map());
@@ -8,7 +9,7 @@ function Graph({ graph, setGraph }) {
   }, []);
 
   async function getGraphs() {
-    let response = await fetch("http://34.116.224.190:8080/graph/");
+    let response = await fetch(`${API_URL}/graph/`);
     response = await response.json();
     setGraphs(new Map(response.map((g) => [g.name, g.nodes])));
   }
@@ -37,7 +38,7 @@ function Graph({ graph, setGraph }) {
         return { x: parseFloat(numbers[0]), y: parseFloat(numbers[1]) };
       });
 
-      fetch("http://34.116.224.190:8080/graph/", {
+      fetch(`${API_URL}/graph/`, {
         method: "POST",
         headers: {
           Accept: "application/json",

@@ -1,11 +1,12 @@
 import { useEffect } from "react";
+import { API_URL } from "./constants";
 
 function Result({ graph, code, result, setResult }) {
   useEffect(() => {
     const solve = new Object();
     solve.pythonCode = code;
     solve.graphName = graph;
-    fetch("http://34.116.224.190:8080/solve/tsp", {
+    fetch(`${API_URL}/solve/tsp`, {
       method: "POST",
       headers: {
         Accept: "application/json",

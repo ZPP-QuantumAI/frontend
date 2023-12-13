@@ -8,3 +8,16 @@ To start:
 ```
 npm run dev
 ```
+## How to run for production locally
+Build image:
+```
+docker build -t {image name} {path to Dockerfile}
+```
+Start container:
+```
+docker run --name {container name} -d -p {machine port}:80 {image name}
+```
+To stop container:
+```
+docker stop {container name}
+```
