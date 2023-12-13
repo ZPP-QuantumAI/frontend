@@ -53,10 +53,10 @@ function Graph({ graph, setGraph }) {
     return (
       <form onSubmit={addGraph} className="flex flex-col gap-2">
         <label>
-          Name: <input type="text"></input>
+          Name: <input className="border-2 border-black" type="text"></input>
         </label>
-        <textarea rows="4" cols="40"></textarea>
-        <button type="submit">Add graph</button>
+        <textarea className="border-2 border-black" rows="4" cols="40"></textarea>
+        <button className="border-2 border-black" type="submit">Add graph</button>
       </form>
     );
   }

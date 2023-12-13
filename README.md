@@ -21,3 +21,7 @@ To stop container:
 ```
 docker stop {container name}
 ```
+To remove container:
+```
+docker rm {container name}
+```
