@@ -1,0 +1,108 @@
+<!doctype html>
+<html class="h-full" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'denim': {
+                    '50': '#f2f7fd',
+                    '100': '#e4ecfa',
+                    '200': '#c2d9f5',
+                    '300': '#8cb9ed',
+                    '400': '#4f95e1',
+                    '500': '#2878cf',
+                    '600': '#1a5fb4',
+                    '700': '#164b8e',
+                    '800': '#164076',
+                    '900': '#183762',
+                    '950': '#102341',
+                },
+
+              }
+            }
+          }
+        }
+      </script>
+    <title>ZPP-QuantumAI</title>
+  </head>
+  <body class="bg-denim-100 h-full">
+    <div class="sticky top-0 bg-denim-600 flex pl-4 pr-2 py-1.5 gap-2 text-lg text-white">
+        <div class="px-2 hover:bg-denim-950 rounded-lg">&#9776;</div>
+        <div class="px-2 hover:bg-denim-950 rounded-lg">Algorithm</div>
+        <div class="px-2 hover:bg-denim-950 rounded-lg">Graph</div>
+        <div class="ml-auto px-2 hover:bg-denim-950 rounded-lg">Selected algorithms: 0</div>
+        <div class="hover:bg-denim-950 px-2 rounded-lg">Selected graphs: 0</div>
+        <div class="bg-green-600 px-2 rounded-lg hover:bg-green-900">Run</div>
+    </div>
+    <div class="flex p-4 justify-between gap-1 items-start h-full">
+        <table class="w-7/12">
+            <thead class="bg-denim-300">
+                <tr>
+                    <th>Status</th>
+                    <th>Algorithm</th>
+                    <th>Graph</th>
+                    <th>Distance</th>
+                    <th>Time</th>
+                    <th>Visualization</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="font-normal bg-yellow-300 rounded-lg">Waiting</th>
+                    <th class="font-normal">Example algorithm 1</th>
+                    <th class="font-normal">Example graph</th>
+                    <th class="font-normal"></th>
+                    <th class="font-normal"></th>
+                    <th><span class="font-normal bg-denim-500 py-0.5 px-2 rounded-xl text-white opacity-25">Visualize</span></th>
+                </tr>
+                <tr class="bg-denim-200">
+                    <th class="font-normal bg-red-500 rounded-lg">Failed</th>
+                    <th class="font-normal">Example algorithm 2</th>
+                    <th class="font-normal">Example graph</th>
+                    <th class="font-normal"></th>
+                    <th class="font-normal"></th>
+                    <th><span class="font-normal bg-denim-500 py-0.5 px-2 rounded-xl text-white opacity-25">Visualize</span></th>
+                </tr>
+                <tr>
+                    <th class="font-normal bg-green-500 rounded-t-lg">Success</th>
+                    <th class="font-normal">Example algorithm 3</th>
+                    <th class="font-normal">Example graph</th>
+                    <th class="font-normal">20</th>
+                    <th class="font-normal">10</th>
+                    <th><span class="font-normal bg-denim-500 py-0.5 px-2 rounded-xl text-white hover:bg-denim-800">Visualize</span></th>
+                </tr>
+                <tr class="bg-denim-200">
+                    <th class="font-normal bg-green-500">Success</th>
+                    <th class="font-normal">Example algorithm 4</th>
+                    <th class="font-normal">Example graph</th>
+                    <th class="font-normal">20</th>
+                    <th class="font-normal">10</th>
+                    <th><span class="font-normal bg-denim-500 py-0.5 px-2 rounded-xl text-white hover:bg-denim-800">Visualize</span></th>
+                </tr>
+                <tr>
+                    <th class="font-normal bg-green-500">Success</th>
+                    <th class="font-normal">Example algorithm 5</th>
+                    <th class="font-normal">Example graph</th>
+                    <th class="font-normal">20</th>
+                    <th class="font-normal">10</th>
+                    <th><span class="font-normal bg-denim-500 py-0.5 px-2 rounded-xl text-white hover:bg-denim-800">Visualize</span></th>
+                </tr>
+                <tr class="bg-denim-200">
+                    <th class="font-normal bg-green-500 rounded-b-lg">Success</th>
+                    <th class="font-normal">Example algorithm 6</th>
+                    <th class="font-normal">Example graph</th>
+                    <th class="font-normal">20</th>
+                    <th class="font-normal">10</th>
+                    <th><span class="font-normal bg-denim-500 py-0.5 px-2 rounded-xl text-white hover:bg-denim-800">Visualize</span></th>
+                </tr>
+            </tbody>
+        </table>
+        <iframe class="w-5/12 h-full" src="https://www.wikipedia.org" name="visualization"></iframe> 
+    </div>
+  </body>
+</html>
