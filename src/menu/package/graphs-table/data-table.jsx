@@ -12,16 +12,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useState } from "react"
-import { Button } from "@/components/ui/button";
 
 export function DataTable({
-  columns,
+    columns,
   data,
   rowSelection,
   setRowSelection,
 }) {
-
 
   const table = useReactTable({
     data,
@@ -29,12 +26,13 @@ export function DataTable({
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
     getRowId: (row) => row.id,
-    state: {rowSelection},
+    state: {rowSelection}
   })
 
   return (
     <div className="rounded-md border">
       <Table>
+        {/* {console.log(rowSelection)} */}
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>

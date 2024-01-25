@@ -1,68 +1,66 @@
 import { API_URL } from "@/constants";
-import { useEffect, useState } from "react";
 import { DataTable } from "./data-table";
-import { columns } from "./columns";
 import { useQueries } from "react-query";
+import { Button } from "@/components/ui/button";
+import { Loader2, Check, X } from "lucide-react";
 
-export default function Results({keys}) {
-    const [results, setResults] = useState([]);
-
-    // useEffect(() => {
-    //     const tmp = [];
-    //     // async function test(key, index) {
-    //     //     let inserted = false;
-    //     //     while (keys.has(key)) {
-    //     //         let result = await fetch(`${API_URL}/grade/?gradeId=${key}`);
-    //     //         result = await result.json();
-    //     //         if (!inserted || result.status != 'WAITING') {
-    //     //             tmp[index] = result;
-    //     //             setResults(tmp);
-    //     //             console.log(tmp);
-
-    //     //             if (result.status != 'WAITING') {
-    //     //                 return;
-    //     //             }
-    //     //         }
-    //     //         await new Promise((r) => setTimeout(r, 2000));
-    //     //     }
-    //     // }
-
-    //     // let i = 0;
-    //     // for (const key of keys) {
-    //     //     test(key, i++);
-    //     // }
-    //     async function test(key, index) {
-    //         let tmp2 = {
-    //             status: "SUCCESS",
-    //             runtimeInMs: 19,
-    //         }
-
-    //         tmp[index] = tmp2;
-    //         setResults(tmp); 
-
-    //         while (true) {
-    //             tmp[index].runtimeInMs++;
-    //             setResults(tmp);
-    //             console.log(tmp);
-    //             await new Promise((r) => setTimeout(r, 20000));
-    //             console.log(tmp);
-    //         }
-    //     }
-
-    //     for (let i = 0; i < 2; i++) {
-    //         test(true,i);
-    //     }
-
-    // }, [keys]);
+export default function Results({keys, setResult}) {
+    const columns = [
+        {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({row}) => {switch(row.getValue("status")) {
+                case 'SUCCESS': return <Check className="text-green-500"/>;
+                case 'FAILED': return <X className="text-red-500"/>;
+                case 'WAITING': return <Loader2 className="animate-spin"/>;
+                default: return row.getValue("status");
+            }}
+        },
+        {
+            accessorKey: "gradeId",
+            header: "Grade id",
+        },
+        {
+            accessorKey: "runtimeInMs",
+            header: "Runtime",
+            cell: ({ row }) => {return row.getValue("runtimeInMs") ? row.getValue("runtimeInMs") + " ms" : row.getValue("runtimeInMs")}
+        },
+        {
+            accessorKey: "result.sumOfWeights",
+            header: "Distance",
+        },
+        {
+            accessorKey: "graph.name",
+            header: "Graph name",
+        },
+        {
+            accessorKey: "graph.id",
+            header: "Graph id",
+            id: "graphId",
+        },
+        {
+            accessorKey: "result",
+            header: "Show",
+            cell: ({ row }) => {return row.getValue("status") != 'SUCCESS' ? <Button disabled>Show</Button> : <Button onClick={() => setResult(row)}>Show</Button>}
+        }
+    ]
 
     async function myFetch(i) {
-        let result = {status: 'WAITING'};
-        while (result.status == 'WAITING') {
-            result = await fetch(`${API_URL}/grade/?gradeId=${i}`);
-            result = await result.json();
-            await new Promise((r) => setTimeout(r, 2000));
+        let grade = await fetch(`${API_URL}/grade/?gradeId=${i}`);
+        grade = await grade.json();
+
+        if (grade.status == 'WAITING') {
+            console.log('error');
+            throw new Error('Result not ready!');
         }
-        return await result;
+
+        let graph = await fetch(`${API_URL}/graph/?graphId=${grade.graphId}`);
+        graph = await graph.json();
+
+        grade.graph = graph;
+
+        console.log(grade);
+        return grade;
     }
 
     const data = useQueries(keys.map(i => {
@@ -70,6 +68,7 @@ export default function Results({keys}) {
             queryKey: ['key', i],
             queryFn: () => myFetch(i),
             initialData: () => {return {status: 'WAITING', gradeId: i}},
+            retry: true,
         }
     }))
 

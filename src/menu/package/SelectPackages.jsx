@@ -1,7 +1,5 @@
 import { MenubarItem } from "@/components/ui/menubar";
 import { ScrollArea } from "@/components/ui/scroll-area"
-
-
 import {
     Dialog,
     DialogClose,
@@ -11,30 +9,30 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog";
-import { GraphsTable } from "./GraphsTable";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { PackagesTable } from "./packages-table/PackagesTable";
 
-export function SelectGraphs( { selectedGraphs, setSelectedGraphs} ) {
+export function SelectPackages( { selectedPackages, setSelectedPackages} ) {
   const [rowSelection, setRowSelection] = useState({});
 
-  function selectGraphs() {
-    setSelectedGraphs(Object.keys(rowSelection));
+  function selectPackages() {
+    setSelectedPackages(Object.keys(rowSelection));
   }
 
     return (
         <Dialog>
         <DialogTrigger asChild>
           <MenubarItem onSelect={(e) => e.preventDefault()}>
-            Select graphs
+            Select packages
           </MenubarItem>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Select graphs</DialogTitle>
+            <DialogTitle>Select packages</DialogTitle>
           </DialogHeader>
-          <ScrollArea className="max-h-[40rem]"><GraphsTable rowSelection={rowSelection} setRowSelection={setRowSelection} selectedGraphs={selectedGraphs} /></ScrollArea>
-          <DialogFooter><DialogClose asChild><Button onClick={selectGraphs}>Select</Button></DialogClose></DialogFooter>
+          <ScrollArea className="max-h-[40rem]"><PackagesTable rowSelection={rowSelection} setRowSelection={setRowSelection} selectedPackages={selectedPackages} /></ScrollArea>
+          <DialogFooter><DialogClose asChild><Button onClick={selectPackages}>Select</Button></DialogClose></DialogFooter>
         </DialogContent>
       </Dialog>
     );

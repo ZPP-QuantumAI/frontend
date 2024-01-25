@@ -1,7 +1,6 @@
 import {
   Menubar,
   MenubarContent,
-  MenubarItem,
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
@@ -12,9 +11,12 @@ import { SelectGraphs } from "./graph/SelectGraphs";
 import { useState } from "react";
 import { AddAlgorithm } from "./algorithm/AddAlgorithm";
 import { API_URL } from "@/constants";
+import { AddPackage } from "./package/AddPackage";
+import { SelectPackages } from "./package/SelectPackages";
 
 export function Menu({setKeys}) {
   const [selectedGraphs, setSelectedGraphs] = useState([]);
+  const [selectedPackages, setSelectedPackages] = useState([]);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState();
 
   async function runAlgorithm() {
@@ -22,13 +24,19 @@ export function Menu({setKeys}) {
     const data = new FormData();
     data.append('solution', selectedAlgorithm);
 
-    for (const graph of selectedGraphs) {
-      let result = await fetch(`${API_URL}/grade/generateRequest?graphId=${graph}&problem=TSP`, {
-        method: "POST",
-        body: data,
-      })
-      result = await result.text();
-      results.push(result);
+    for (const packageId of selectedPackages) {
+      let packageData = await fetch(`${API_URL}/package/?packageId=${packageId}`);
+      packageData = await packageData.json();
+      
+      for (const graphId of packageData.graphIds) {
+        let result = await fetch(`${API_URL}/grade/graph?graphId=${graphId}&problem=TSP`, {
+          method: "POST",
+          body: data,
+        })
+        result = await result.text();
+        
+        results.push(result);
+      }
     }
 
     // setSelectedAlgorithm();
@@ -43,24 +51,31 @@ export function Menu({setKeys}) {
         <MenubarTrigger className="ml-2">Algorithm</MenubarTrigger>
         <MenubarContent>
           <AddAlgorithm setSelectedAlgorithm={setSelectedAlgorithm}></AddAlgorithm>
-          <MenubarItem>Select algorithms</MenubarItem>
+          {/* <MenubarItem>Select algorithms</MenubarItem> */}
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>Package</MenubarTrigger>
+        <MenubarContent>
+          <AddPackage/>
+          <SelectPackages selectedPackages={selectedPackages} setSelectedPackages={setSelectedPackages}></SelectPackages>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Graph</MenubarTrigger>
         <MenubarContent>
           <AddGraph></AddGraph>
-          <SelectGraphs selectedGraphs={selectedGraphs} setSelectedGraphs={setSelectedGraphs}></SelectGraphs>
+          {/* <SelectGraphs selectedGraphs={selectedGraphs} setSelectedGraphs={setSelectedGraphs}></SelectGraphs> */}
         </MenubarContent>
       </MenubarMenu>
       <Button onClick={() => setSelectedAlgorithm()} variant="menu" size="menu" className="ml-auto">
         Selected algorithms: {selectedAlgorithm && 1}{!selectedAlgorithm && 0}
       </Button>
-      <Button onClick={() => setSelectedGraphs([])} variant="menu" size="menu">
-        Selected graphs: {selectedGraphs.length}
+      <Button onClick={() => setSelectedPackages([])} variant="menu" size="menu">
+        Selected packages: {selectedPackages.length}
       </Button>
       <Button
-        disabled={selectedGraphs.length == 0 || !selectedAlgorithm}
+        disabled={selectedPackages.length == 0 || !selectedAlgorithm}
         variant="menu"
         size="menu"
         className="bg-green-600 rounded-lg hover:bg-green-900"
