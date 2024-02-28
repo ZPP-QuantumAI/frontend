@@ -20,7 +20,7 @@ import { GraphsTable } from "./graphs-table/GraphsTable";
 
 const packageSchema = z.object({
   name: z.string(),
-  graphs: z.any(),
+  graphIds: z.any(),
 });
 
 function ButtonLoading() {
@@ -33,22 +33,14 @@ function ButtonLoading() {
 }
 
 async function createPackage(newPackage) {
-  let result = await fetch(`${API_URL}/package/new?name=${newPackage.name}`, {
-    method: "POST",
-  });
-  let packageId = await result.text();
-  let graphs = Object.keys(newPackage.graphs);
+  newPackage.graphIds = Object.keys(newPackage.graphIds);
 
-  if (!graphs.length) {
-    return;
-  }
-  
-  result = await fetch(`${API_URL}/package/add?packageId=${packageId}`, {
+  await fetch(`${API_URL}/package/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(graphs),
+    body: JSON.stringify(newPackage),
   });
 }
 
@@ -62,7 +54,7 @@ export function PackageForm({ setOpen }) {
     resolver: zodResolver(packageSchema),
     defaultValues: {
       name: "",
-      graphs: [],
+      graphIds: [],
     },
   });
 
@@ -88,7 +80,7 @@ export function PackageForm({ setOpen }) {
         ></FormField>
         <FormField
           control={packageForm.control}
-          name="graphs"
+          name="graphIds"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Graphs</FormLabel>
