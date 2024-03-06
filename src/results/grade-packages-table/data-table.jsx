@@ -12,12 +12,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { GraphPackagesTable } from "../grade-graphs-table/GraphPackagesTable";
 
 export function DataTable({ columns, data }) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (row) => row.solutionId,
   });
 
   return (
@@ -38,22 +45,36 @@ export function DataTable({ columns, data }) {
                   </TableHead>
                 );
               })}
+              <TableHead>Dupa</TableHead>
             </TableRow>
           ))}
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
+              <Collapsible key={row.id} asChild>
+                <>
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                    <TableCell>
+                      <CollapsibleTrigger>Show</CollapsibleTrigger>
+                    </TableCell>
+                  </TableRow>
+                  <CollapsibleContent asChild>
+                    <tr><td colSpan={row.getVisibleCells().length + 1}><GraphPackagesTable grades={row.original.grades}></GraphPackagesTable></td></tr>
+                  </CollapsibleContent>
+                </>
+              </Collapsible>
             ))
           ) : (
             <TableRow>
