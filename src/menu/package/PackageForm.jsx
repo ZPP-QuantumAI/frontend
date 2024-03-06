@@ -12,36 +12,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "react-query";
-import { API_URL } from "@/constants";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
 import { GraphsTable } from "./graphs-table/GraphsTable";
+import { post } from "@/lib/requests";
 
 const packageSchema = z.object({
   name: z.string(),
   graphIds: z.any(),
 });
 
-function ButtonLoading() {
-  return (
-    <Button disabled>
-      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      Creating package
-    </Button>
-  );
-}
-
 async function createPackage(newPackage) {
   newPackage.graphIds = Object.keys(newPackage.graphIds);
-
-  await fetch(`${API_URL}/package/create`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newPackage),
-  });
+  await post("/package/create", newPackage);
 }
 
 export function PackageForm({ setOpen }) {
@@ -85,7 +68,7 @@ export function PackageForm({ setOpen }) {
             <FormItem>
               <FormLabel>Graphs</FormLabel>
               <FormControl>
-                <GraphsTable value={field.value} onChange={field.onChange}/>
+                <GraphsTable value={field.value} onChange={field.onChange} />
               </FormControl>
               <FormDescription>Select graphs.</FormDescription>
               <FormMessage />
@@ -93,8 +76,13 @@ export function PackageForm({ setOpen }) {
           )}
         ></FormField>
         <DialogFooter>
-          {packageMutation.isIdle && <Button type="submit">Add</Button>}
-          {packageMutation.isLoading && <ButtonLoading />}
+          <Button
+            type="submit"
+            isLoading={packageMutation.isLoading}
+            loadingMess="Creating package"
+          >
+            Add
+          </Button>
         </DialogFooter>
       </form>
     </Form>

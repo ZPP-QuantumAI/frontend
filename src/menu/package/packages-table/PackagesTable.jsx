@@ -1,15 +1,14 @@
-import { API_URL } from "@/constants";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { useQuery } from "react-query";
+import { get } from "@/lib/requests";
 
 
 export function PackagesTable({rowSelection, setRowSelection, selectedPackages}) {
     const packages = useQuery("packages", async () => {
-        let response = await fetch(`${API_URL}/package/all`);
-        return await response.json();
+        return await get('/package/all');
     })
 
     useEffect(() => {

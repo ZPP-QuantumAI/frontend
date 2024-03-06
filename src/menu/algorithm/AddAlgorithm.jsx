@@ -17,14 +17,11 @@ import { Button } from "@/components/ui/button";
 
 export function AddAlgorithm({setSelectedAlgorithm}) {
     function addAlgorithm() {
-        console.log(document.getElementById("algorithm").files[0]);
         setSelectedAlgorithm(document.getElementById("algorithm").files[0]);
     }
 
-  const [open, setOpen] = useState(false);
-
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <MenubarItem onSelect={(e) => e.preventDefault()}>
           Add algorithm

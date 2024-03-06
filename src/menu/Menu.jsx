@@ -7,58 +7,57 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { AddGraph } from "./graph/AddGraph";
-import { SelectGraphs } from "./graph/SelectGraphs";
 import { useState } from "react";
 import { AddAlgorithm } from "./algorithm/AddAlgorithm";
-import { API_URL } from "@/constants";
+import { API_URL } from "@/lib/constants";
 import { AddPackage } from "./package/AddPackage";
 import { SelectPackages } from "./package/SelectPackages";
+import { useMutation } from "react-query";
 
-export function Menu({setKeys}) {
-  const [selectedGraphs, setSelectedGraphs] = useState([]);
+export function Menu({ setKeys }) {
   const [selectedPackages, setSelectedPackages] = useState([]);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState();
 
   async function runAlgorithm() {
     const results = [];
     const data = new FormData();
-    data.append('solution', selectedAlgorithm);
+    data.append("solution", selectedAlgorithm);
 
     for (const packageId of selectedPackages) {
-      let packageData = await fetch(`${API_URL}/package/?packageId=${packageId}`);
-      packageData = await packageData.json();
-      
-      for (const graphId of packageData.graphIds) {
-        let result = await fetch(`${API_URL}/grade/graph?graphId=${graphId}&problem=TSP`, {
+      let result = await fetch(
+        `${API_URL}/grade/package?packageId=${packageId}&problem=TSP`,
+        {
           method: "POST",
           body: data,
-        })
-        result = await result.text();
-        
-        results.push(result);
-      }
+        }
+      );
+      results.push(await result.text());
     }
 
-    // setSelectedAlgorithm();
-    // setSelectedGraphs([]);
-    console.log(results);
     setKeys(results);
   }
+
+  const runMutation = useMutation({ mutationFn: runAlgorithm });
 
   return (
     <Menubar>
       <MenubarMenu>
         <MenubarTrigger className="ml-2">Algorithm</MenubarTrigger>
         <MenubarContent>
-          <AddAlgorithm setSelectedAlgorithm={setSelectedAlgorithm}></AddAlgorithm>
+          <AddAlgorithm
+            setSelectedAlgorithm={setSelectedAlgorithm}
+          ></AddAlgorithm>
           {/* <MenubarItem>Select algorithms</MenubarItem> */}
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Package</MenubarTrigger>
         <MenubarContent>
-          <AddPackage/>
-          <SelectPackages selectedPackages={selectedPackages} setSelectedPackages={setSelectedPackages}></SelectPackages>
+          <AddPackage />
+          <SelectPackages
+            selectedPackages={selectedPackages}
+            setSelectedPackages={setSelectedPackages}
+          ></SelectPackages>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
@@ -68,10 +67,20 @@ export function Menu({setKeys}) {
           {/* <SelectGraphs selectedGraphs={selectedGraphs} setSelectedGraphs={setSelectedGraphs}></SelectGraphs> */}
         </MenubarContent>
       </MenubarMenu>
-      <Button onClick={() => setSelectedAlgorithm()} variant="menu" size="menu" className="ml-auto">
-        Selected algorithms: {selectedAlgorithm && 1}{!selectedAlgorithm && 0}
+      <Button
+        onClick={() => setSelectedAlgorithm()}
+        variant="menu"
+        size="menu"
+        className="ml-auto"
+      >
+        Selected algorithms: {selectedAlgorithm && 1}
+        {!selectedAlgorithm && 0}
       </Button>
-      <Button onClick={() => setSelectedPackages([])} variant="menu" size="menu">
+      <Button
+        onClick={() => setSelectedPackages([])}
+        variant="menu"
+        size="menu"
+      >
         Selected packages: {selectedPackages.length}
       </Button>
       <Button
@@ -79,7 +88,9 @@ export function Menu({setKeys}) {
         variant="menu"
         size="menu"
         className="bg-green-600 rounded-lg hover:bg-green-900"
-        onClick={runAlgorithm}
+        isLoading={runMutation.isLoading}
+        loadingMess="Sending"
+        onClick={runMutation.mutate}
       >
         Run
       </Button>

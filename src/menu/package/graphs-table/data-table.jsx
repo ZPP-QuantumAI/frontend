@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table"
 
 export function DataTable({
-    columns,
+  columns,
   data,
   rowSelection,
   setRowSelection,
@@ -32,7 +32,6 @@ export function DataTable({
   return (
     <div className="rounded-md border">
       <Table>
-        {/* {console.log(rowSelection)} */}
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
