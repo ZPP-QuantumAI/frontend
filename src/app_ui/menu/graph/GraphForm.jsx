@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
+import { DialogFooter } from "@/components/ui/dialog";
 import {
   FormField,
   Form,
@@ -11,10 +11,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { API_URL } from "@/lib/constants";
 import { post } from "@/lib/requests";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import * as z from "zod";
@@ -24,7 +22,7 @@ const regexInput =
 const regexNumber = /[+-]?\d+(\.\d+)? [+-]?\d+(\.\d+)?/g;
 
 const graphSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, "Name can't be empty!"),
   nodes: z.string().regex(regexInput, "Wrong format!"),
 });
 

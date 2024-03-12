@@ -1,8 +1,9 @@
 import {
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -11,19 +12,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
+import { useState } from "react";
 
-export function DataTable({
-  columns,
-  data,
-}) {
-
+export function DataTable({ columns, data }) {
+  const [sorting, setSorting] = useState([]);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-  })
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: { sorting },
+  });
 
   return (
     <div className="rounded-md border">
@@ -41,7 +43,7 @@ export function DataTable({
                           header.getContext()
                         )}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -70,5 +72,5 @@ export function DataTable({
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

@@ -1,8 +1,3 @@
-import { DataTable } from "./data-table";
-import { useQueries } from "react-query";
-import { Button } from "@/components/ui/button";
-import { Loader2, Check, X } from "lucide-react";
-import { API_URL } from "@/lib/constants";
 import { GradePackagesTable } from "./grade-packages-table/GradePackagesTable";
 
 export default function Results({keys, setResult}) {

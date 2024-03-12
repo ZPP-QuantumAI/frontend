@@ -19,9 +19,9 @@ import { post } from "@/lib/requests";
 import { Textarea } from "@/components/ui/textarea";
 
 const packageSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-  graphIds: z.any(),
+  name: z.string().min(1, "Name can't be empty!"),
+  description: z.string().max(700, "Description is too long!"),
+  graphIds: z.any().refine(ids => Object.keys(ids).length > 0, "No graphs selected!"),
 });
 
 async function createPackage(newPackage) {
@@ -64,7 +64,7 @@ export function PackageForm({ setOpen }) {
             </FormItem>
           )}
         ></FormField>
-                <FormField
+        <FormField
           control={packageForm.control}
           name="description"
           render={({ field }) => (

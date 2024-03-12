@@ -12,13 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { GraphPackagesTable } from "../grade-graphs-table/GraphPackagesTable";
-import { ChevronDown } from "lucide-react";
 
 export function DataTable({ columns, data }) {
   const table = useReactTable({
@@ -46,7 +41,6 @@ export function DataTable({ columns, data }) {
                   </TableHead>
                 );
               })}
-              <TableHead>Expand</TableHead>
             </TableRow>
           ))}
         </TableHeader>
@@ -67,20 +61,15 @@ export function DataTable({ columns, data }) {
                         )}
                       </TableCell>
                     ))}
-                    <TableCell>
-                      <CollapsibleTrigger asChild>
-                        <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
-                      </CollapsibleTrigger>
-                    </TableCell>
                   </TableRow>
                   <CollapsibleContent asChild>
-                    <tr>
-                      <td colSpan={row.getVisibleCells().length + 1}>
+                    <TableRow>
+                      <TableCell colSpan={row.getVisibleCells().length}>
                         <GraphPackagesTable
-                          grades={row.original.grades}
+                          grades={row.original.finalGrade.grades}
                         ></GraphPackagesTable>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   </CollapsibleContent>
                 </>
               </Collapsible>

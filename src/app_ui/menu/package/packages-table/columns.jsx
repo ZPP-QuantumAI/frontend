@@ -1,4 +1,3 @@
-import { SortableColumnButton } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Tooltip,
@@ -6,11 +5,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { SortableColumnButton } from "@/reusable/table/button";
+import { SelectColumnCheckBox } from "@/reusable/table/checkbox";
 
 export const columns = [
   {
     id: "select",
-    header: "Select",
+    header: ({ table }) => <SelectColumnCheckBox table={table} />,
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}

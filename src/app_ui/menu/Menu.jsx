@@ -1,15 +1,19 @@
 import {
   Menubar,
   MenubarContent,
+  MenubarItem,
   MenubarMenu,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
 
 import { Button } from "@/components/ui/button";
 import { AddGraph } from "./graph/AddGraph";
 import { useState } from "react";
-import { AddAlgorithm } from "./algorithm/AddAlgorithm";
-import { API_URL } from "@/lib/constants";
+import { AddAlgorithm } from "./algorithm/SelectAlgorithm";
+import { API_URL, RECENT_ALGORITHMS_NUM } from "@/lib/constants";
 import { AddPackage } from "./package/AddPackage";
 import { SelectPackages } from "./package/SelectPackages";
 import { useMutation } from "react-query";
@@ -17,37 +21,70 @@ import { useMutation } from "react-query";
 export function Menu({ setKeys }) {
   const [selectedPackages, setSelectedPackages] = useState([]);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState();
+  const [recentAlgorithms, setRecentAlgorithms] = useState([]);
+
+  function selectRecentAlgorithm(algorithm, index) {
+    const newRecentAlgorithms = [algorithm, ...recentAlgorithms];
+    newRecentAlgorithms.splice(index + 1, 1);
+    console.log(newRecentAlgorithms);
+    setRecentAlgorithms(newRecentAlgorithms);
+    setSelectedAlgorithm(algorithm);
+  }
+
+  function selectAlgorithm(algorithm) {
+    const newRecentAlgorithms = [algorithm, ...recentAlgorithms].slice(
+      0,
+      RECENT_ALGORITHMS_NUM
+    );
+    setRecentAlgorithms(newRecentAlgorithms);
+    setSelectedAlgorithm(algorithm);
+  }
 
   async function runAlgorithm() {
     const results = [];
     const data = new FormData();
-    data.append("solution", selectedAlgorithm);
+    data.set("problem", "TSP");
+    data.set("solution", selectedAlgorithm.algorithm[0]);
+    data.set("name", selectedAlgorithm.name);
 
     for (const packageId of selectedPackages) {
-      let result = await fetch(
-        `${API_URL}/grade/package?packageId=${packageId}&problem=TSP`,
-        {
-          method: "POST",
-          body: data,
-        }
-      );
+      data.set("packageId", packageId);
+
+      let result = await fetch(`${API_URL}/grade/package`, {
+        method: "POST",
+        body: data,
+      });
       results.push(await result.text());
     }
 
+    console.log(results);
     setKeys(results);
   }
 
   const runMutation = useMutation({ mutationFn: runAlgorithm });
 
   return (
-    <Menubar>
+    <Menubar className="sticky top-0">
       <MenubarMenu>
         <MenubarTrigger className="ml-2">Algorithm</MenubarTrigger>
         <MenubarContent>
           <AddAlgorithm
-            setSelectedAlgorithm={setSelectedAlgorithm}
+            selectedAlgorithm={selectedAlgorithm}
+            setSelectedAlgorithm={selectAlgorithm}
           ></AddAlgorithm>
-          {/* <MenubarItem>Select algorithms</MenubarItem> */}
+          <MenubarSub>
+            <MenubarSubTrigger>Recent algorithms</MenubarSubTrigger>
+            <MenubarSubContent>
+              {recentAlgorithms.map((algorithm, index) => (
+                <MenubarItem
+                  key={index}
+                  onClick={() => selectRecentAlgorithm(algorithm, index)}
+                >
+                  {algorithm.name}
+                </MenubarItem>
+              ))}
+            </MenubarSubContent>
+          </MenubarSub>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
@@ -73,8 +110,8 @@ export function Menu({ setKeys }) {
         size="menu"
         className="ml-auto"
       >
-        Selected algorithms: {selectedAlgorithm && 1}
-        {!selectedAlgorithm && 0}
+        Selected algorithm: {selectedAlgorithm && selectedAlgorithm.name}
+        {!selectedAlgorithm && ""}
       </Button>
       <Button
         onClick={() => setSelectedPackages([])}

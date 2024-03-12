@@ -1,3 +1,4 @@
+import { SortableColumnButton } from "@/reusable/table/button";
 import { Check, Loader2, X } from "lucide-react";
 
 export const columns = [
@@ -12,27 +13,26 @@ export const columns = [
             }}
         },
         {
-            accessorKey: "gradeId",
-            header: "Grade id",
-        },
-        {
             accessorKey: "runtimeInMs",
-            header: "Runtime",
+            header: ({ column }) => (<SortableColumnButton column={column}>Runtime</SortableColumnButton>),
             cell: ({ row }) => {return row.getValue("runtimeInMs") ? row.getValue("runtimeInMs") + " ms" : row.getValue("runtimeInMs")}
         },
         {
             accessorKey: "result.sumOfWeights",
-            header: "Distance",
+            header: ({ column }) => (<SortableColumnButton column={column}>Distance</SortableColumnButton>),
         },
+        // {
+        //     accessorKey: "graphIds.length",
+        //     header: ({ column }) => (
+        //       <SortableColumnButton column={column}>
+        //         Number of graphs
+        //       </SortableColumnButton>
+        //     ),
+        //   },
         // {
         //     accessorKey: "graph.name",
         //     header: "Graph name",
         // },
-        {
-            accessorKey: "graphId",
-            header: "Graph id",
-            id: "graphId",
-        },
         // {
         //     accessorKey: "result",
         //     header: "Show",

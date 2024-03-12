@@ -2,7 +2,7 @@ import { columns } from "./columns";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import { get } from "@/lib/requests";
-import { DataTable } from "../DataTable";
+import { SelectableDataTable } from "@/reusable/table/SelectableDataTable";
 
 export function GraphsTable({ value, onChange }) {
   const [rowSelection, setRowSelectionLocal] = useState(value);
@@ -22,12 +22,12 @@ export function GraphsTable({ value, onChange }) {
     }
   );
   return (
-    <DataTable
+    <SelectableDataTable
       columns={columns}
       data={graphs.data}
       rowSelection={rowSelection}
       setRowSelection={setRowSelection}
       rowIdFun={(row) => row.id}
-    />
+    >No graphs.</SelectableDataTable>
   );
 }

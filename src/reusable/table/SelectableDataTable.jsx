@@ -1,6 +1,7 @@
 import {
     flexRender,
     getCoreRowModel,
+    getSortedRowModel,
     useReactTable,
   } from "@tanstack/react-table"
   
@@ -12,17 +13,27 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
+  import { useState } from "react"
   
-  export function DataTable({
+  export function SelectableDataTable({
     columns,
     data,
+    rowSelection,
+    setRowSelection,
+    rowIdFun,
+    children,
   }) {
-  
+    const [sorting, setSorting] = useState([]);
   
     const table = useReactTable({
       data,
       columns,
       getCoreRowModel: getCoreRowModel(),
+      onRowSelectionChange: setRowSelection,
+      getRowId: rowIdFun,
+      onSortingChange: setSorting,
+      getSortedRowModel: getSortedRowModel(),
+      state: {rowSelection, sorting}
     })
   
     return (
@@ -52,6 +63,7 @@ import {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={row.getToggleSelectedHandler()}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -63,7 +75,7 @@ import {
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  {children}
                 </TableCell>
               </TableRow>
             )}
@@ -71,5 +83,5 @@ import {
         </Table>
       </div>
     )
-}
+  }
   

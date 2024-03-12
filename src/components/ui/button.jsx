@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
-import { ArrowUpDown, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -66,15 +66,4 @@ const Button = React.forwardRef(
 );
 Button.displayName = "Button";
 
-const SortableColumnButton = ({ column, children }) => (
-  <Button
-    variant="ghost"
-    type="button"
-    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  >
-    {children}
-    <ArrowUpDown className="ml-2 h-4 w-4" />
-  </Button>
-);
-
-export { Button, SortableColumnButton, buttonVariants };
+export { Button, buttonVariants };
