@@ -1,10 +1,9 @@
-"use client"
-
 import {
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -13,23 +12,28 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { useState } from "react"
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/table";
+import { useState } from "react";
 
 export function DataTable({
   columns,
   data,
+  rowSelection,
+  setRowSelection,
+  rowIdFun,
 }) {
-
+  const [sorting, setSorting] = useState([]);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-  })
-
-  console.log(data);
+    onRowSelectionChange: setRowSelection,
+    getRowId: rowIdFun,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: { rowSelection, sorting },
+  });
 
   return (
     <div className="rounded-md border">
@@ -44,10 +48,10 @@ export function DataTable({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -58,6 +62,7 @@ export function DataTable({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                onClick={row.getToggleSelectedHandler()}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -69,12 +74,12 @@ export function DataTable({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No graphs.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
