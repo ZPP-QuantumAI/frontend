@@ -19,7 +19,7 @@ export function GraphsTable({ value, onChange }) {
     },
     {
       initialData: [],
-    }
+    },
   );
   return (
     <SelectableDataTable
@@ -28,6 +28,8 @@ export function GraphsTable({ value, onChange }) {
       rowSelection={rowSelection}
       setRowSelection={setRowSelection}
       rowIdFun={(row) => row.id}
-    >No graphs.</SelectableDataTable>
+    >
+      No graphs.
+    </SelectableDataTable>
   );
 }

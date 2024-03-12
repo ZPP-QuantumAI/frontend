@@ -21,7 +21,7 @@ const algorithmSchema = z.object({
     .refine((files) => files?.length === 1, "No algorithm provided!")
     .refine(
       (files) => files?.[0]?.type === "application/zip",
-      "Not a zip archive!"
+      "Not a zip archive!",
     ),
 });
 

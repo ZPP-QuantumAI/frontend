@@ -17,12 +17,17 @@ export function GradePackagesTable({ keys }) {
         queryKey: ["key", i],
         queryFn: () => getGradePackage(i),
         initialData: () => {
-          return { status: "WAITING", solutionId: i, finalGrade: {grades: []}, graphPackage: {name: '', graphIds: {length: ''}}};
+          return {
+            status: "WAITING",
+            solutionId: i,
+            finalGrade: { grades: [] },
+            graphPackage: { name: "", graphIds: { length: "" } },
+          };
         },
         refetchInterval: (data) =>
           !data || data.status == "WAITING" ? REFRESH_RATE : undefined,
       };
-    })
+    }),
   );
 
   return <DataTable columns={columns} data={data.map((res) => res.data)} />;

@@ -21,7 +21,9 @@ import { Textarea } from "@/components/ui/textarea";
 const packageSchema = z.object({
   name: z.string().min(1, "Name can't be empty!"),
   description: z.string().max(700, "Description is too long!"),
-  graphIds: z.any().refine(ids => Object.keys(ids).length > 0, "No graphs selected!"),
+  graphIds: z
+    .any()
+    .refine((ids) => Object.keys(ids).length > 0, "No graphs selected!"),
 });
 
 async function createPackage(newPackage) {

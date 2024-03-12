@@ -50,7 +50,10 @@ export function GraphForm({ setOpen }) {
 
   return (
     <Form {...graphForm}>
-      <form onSubmit={graphForm.handleSubmit(graphMutation.mutate)} className="space-y-2">
+      <form
+        onSubmit={graphForm.handleSubmit(graphMutation.mutate)}
+        className="space-y-2"
+      >
         <FormField
           control={graphForm.control}
           name="name"
@@ -80,7 +83,11 @@ export function GraphForm({ setOpen }) {
           )}
         ></FormField>
         <DialogFooter>
-          <Button type="submit" isLoading={graphMutation.isLoading} loadingMess="Sending graph">
+          <Button
+            type="submit"
+            isLoading={graphMutation.isLoading}
+            loadingMess="Sending graph"
+          >
             Add
           </Button>
         </DialogFooter>

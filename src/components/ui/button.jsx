@@ -33,7 +33,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 const Button = React.forwardRef(
@@ -48,7 +48,7 @@ const Button = React.forwardRef(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const Comp = asChild ? Slot : "button";
     return (
@@ -62,7 +62,7 @@ const Button = React.forwardRef(
         {isLoading ? loadingMess : children}
       </Comp>
     );
-  }
+  },
 );
 Button.displayName = "Button";
 

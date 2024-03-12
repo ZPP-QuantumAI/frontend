@@ -16,7 +16,7 @@ export function PackagesTable({
 
   useEffect(() => {
     setRowSelection(
-      Object.fromEntries(selectedPackages.map((id) => [id, true]))
+      Object.fromEntries(selectedPackages.map((id) => [id, true])),
     );
   }, []);
 
@@ -32,7 +32,9 @@ export function PackagesTable({
           rowSelection={rowSelection}
           setRowSelection={setRowSelection}
           rowIdFun={(row) => row.packageId}
-        >No packages.</SelectableDataTable>
+        >
+          No packages.
+        </SelectableDataTable>
       )}
     </>
   );

@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import { AlgorithmForm } from "./AlgorithmForm";
 
-export function AddAlgorithm({setSelectedAlgorithm}) {
+export function AddAlgorithm({ setSelectedAlgorithm }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -24,7 +24,10 @@ export function AddAlgorithm({setSelectedAlgorithm}) {
         <DialogHeader>
           <DialogTitle>Select algorithm</DialogTitle>
         </DialogHeader>
-        <AlgorithmForm setSelectedAlgorithm={setSelectedAlgorithm} setOpen={setOpen}></AlgorithmForm>
+        <AlgorithmForm
+          setSelectedAlgorithm={setSelectedAlgorithm}
+          setOpen={setOpen}
+        ></AlgorithmForm>
       </DialogContent>
     </Dialog>
   );

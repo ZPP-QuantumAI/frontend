@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Check, ChevronDown, Loader2, X } from "lucide-react";
 
 export const columns = [
@@ -28,7 +33,9 @@ export const columns = [
         <Tooltip>
           <TooltipTrigger>{row.original.graphPackage.name}</TooltipTrigger>
           <TooltipContent>
-            <div className="max-w-80 text-pretty">{row.original.graphPackage.description}</div>
+            <div className="max-w-80 text-pretty">
+              {row.original.graphPackage.description}
+            </div>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -41,14 +48,19 @@ export const columns = [
   {
     accessorKey: "runtimeInMs",
     header: "Total runtime",
-    cell: ({ row }) => row.getValue("runtimeInMs") ? row.getValue("runtimeInMs") + " ms" : row.getValue("runtimeInMs")
+    cell: ({ row }) =>
+      row.getValue("runtimeInMs")
+        ? row.getValue("runtimeInMs") + " ms"
+        : row.getValue("runtimeInMs"),
   },
   {
     id: "expand",
     header: "Expand",
     cell: () => (
       <CollapsibleTrigger className="data-[state=open]:rotate-180" asChild>
-        <Button variant="ghost"><ChevronDown className="h-4 w-4 shrink-0" /></Button>
+        <Button variant="ghost">
+          <ChevronDown className="h-4 w-4 shrink-0" />
+        </Button>
       </CollapsibleTrigger>
     ),
   },

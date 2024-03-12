@@ -34,7 +34,7 @@ export function Menu({ setKeys }) {
   function selectAlgorithm(algorithm) {
     const newRecentAlgorithms = [algorithm, ...recentAlgorithms].slice(
       0,
-      RECENT_ALGORITHMS_NUM
+      RECENT_ALGORITHMS_NUM,
     );
     setRecentAlgorithms(newRecentAlgorithms);
     setSelectedAlgorithm(algorithm);

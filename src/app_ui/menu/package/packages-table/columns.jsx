@@ -29,7 +29,9 @@ export const columns = [
         <Tooltip>
           <TooltipTrigger>{row.getValue("name")}</TooltipTrigger>
           <TooltipContent>
-            <div className="max-w-80 text-pretty">{row.original.description}</div>
+            <div className="max-w-80 text-pretty">
+              {row.original.description}
+            </div>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
