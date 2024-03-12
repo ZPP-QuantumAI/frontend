@@ -34,6 +34,7 @@ export const columns = [
     header: ({ column }) => (
       <SortableColumnButton column={column}>Distance</SortableColumnButton>
     ),
+    cell: ({ row }) => row.original.result.sumOfWeights.toFixed(2),
   },
   // {
   //     accessorKey: "graphIds.length",
