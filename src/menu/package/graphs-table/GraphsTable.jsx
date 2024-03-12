@@ -1,8 +1,8 @@
 import { columns } from "./columns";
-import { DataTable } from "./data-table";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import { get } from "@/lib/requests";
+import { DataTable } from "../DataTable";
 
 export function GraphsTable({ value, onChange }) {
   const [rowSelection, setRowSelectionLocal] = useState(value);
@@ -27,6 +27,7 @@ export function GraphsTable({ value, onChange }) {
       data={graphs.data}
       rowSelection={rowSelection}
       setRowSelection={setRowSelection}
+      rowIdFun={(row) => row.id}
     />
   );
 }

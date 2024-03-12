@@ -16,9 +16,11 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { GraphsTable } from "./graphs-table/GraphsTable";
 import { post } from "@/lib/requests";
+import { Textarea } from "@/components/ui/textarea";
 
 const packageSchema = z.object({
   name: z.string(),
+  description: z.string(),
   graphIds: z.any(),
 });
 
@@ -37,6 +39,7 @@ export function PackageForm({ setOpen }) {
     resolver: zodResolver(packageSchema),
     defaultValues: {
       name: "",
+      description: "",
       graphIds: [],
     },
   });
@@ -57,6 +60,20 @@ export function PackageForm({ setOpen }) {
                 <Input {...field} />
               </FormControl>
               <FormDescription>Provide package name.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        ></FormField>
+                <FormField
+          control={packageForm.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea {...field} />
+              </FormControl>
+              <FormDescription>Provide package description.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

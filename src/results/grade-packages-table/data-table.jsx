@@ -18,6 +18,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { GraphPackagesTable } from "../grade-graphs-table/GraphPackagesTable";
+import { ChevronDown } from "lucide-react";
 
 export function DataTable({ columns, data }) {
   const table = useReactTable({
@@ -45,7 +46,7 @@ export function DataTable({ columns, data }) {
                   </TableHead>
                 );
               })}
-              <TableHead>Dupa</TableHead>
+              <TableHead>Expand</TableHead>
             </TableRow>
           ))}
         </TableHeader>
@@ -67,11 +68,19 @@ export function DataTable({ columns, data }) {
                       </TableCell>
                     ))}
                     <TableCell>
-                      <CollapsibleTrigger>Show</CollapsibleTrigger>
+                      <CollapsibleTrigger asChild>
+                        <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+                      </CollapsibleTrigger>
                     </TableCell>
                   </TableRow>
                   <CollapsibleContent asChild>
-                    <tr><td colSpan={row.getVisibleCells().length + 1}><GraphPackagesTable grades={row.original.grades}></GraphPackagesTable></td></tr>
+                    <tr>
+                      <td colSpan={row.getVisibleCells().length + 1}>
+                        <GraphPackagesTable
+                          grades={row.original.grades}
+                        ></GraphPackagesTable>
+                      </td>
+                    </tr>
                   </CollapsibleContent>
                 </>
               </Collapsible>
