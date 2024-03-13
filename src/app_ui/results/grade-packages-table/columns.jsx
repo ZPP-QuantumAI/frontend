@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { CollapsibleTrigger } from "@/components/ui/collapsible";
-import { RowWithDescription } from "@/reusable/table/RowWithDescription";
+import { CellWithDescription } from "@/reusable/table/CellWithDescription";
 import { SortableColumnButton } from "@/reusable/table/button";
 import { Check, ChevronDown, Loader2, X } from "lucide-react";
 
@@ -34,7 +34,7 @@ export const columns = [
     header: ({ column }) => (
       <SortableColumnButton column={column}>Package name</SortableColumnButton>
     ),
-    cell: ({ row }) => RowWithDescription(row.original.graphPackage),
+    cell: ({ row }) => CellWithDescription(row.original.graphPackage),
   },
   {
     accessorKey: "graphPackage.graphIds.length",

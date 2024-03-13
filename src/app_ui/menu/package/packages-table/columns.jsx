@@ -1,5 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { RowWithDescription } from "@/reusable/table/RowWithDescription";
+import { CellWithDescription } from "@/reusable/table/CellWithDescription";
 import { SortableColumnButton } from "@/reusable/table/button";
 import { SelectColumnCheckBox } from "@/reusable/table/checkbox";
 
@@ -19,7 +19,7 @@ export const columns = [
     header: ({ column }) => (
       <SortableColumnButton column={column}>Name</SortableColumnButton>
     ),
-    cell: ({ row }) => RowWithDescription(row.original),
+    cell: ({ row }) => CellWithDescription(row.original),
   },
   {
     accessorKey: "graphIds.length",

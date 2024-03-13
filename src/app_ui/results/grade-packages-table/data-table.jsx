@@ -17,7 +17,7 @@ import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { GraphPackagesTable } from "../grade-graphs-table/GraphPackagesTable";
 import { useState } from "react";
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, setResult }) {
   const [sorting, setSorting] = useState([]);
 
   const table = useReactTable({
@@ -74,6 +74,7 @@ export function DataTable({ columns, data }) {
                       <TableCell colSpan={row.getVisibleCells().length}>
                         <GraphPackagesTable
                           grades={row.original.finalGrade.grades}
+                          setResult={setResult}
                         ></GraphPackagesTable>
                       </TableCell>
                     </TableRow>

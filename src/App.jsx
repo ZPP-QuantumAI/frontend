@@ -13,15 +13,12 @@ export default function App() {
   return (
     <div className="flex flex-col gap-5">
       <Menu setKeys={setKeys} />
-      <div className="flex px-2 gap-5 justify-evenly w-full">
-        <Results keys={keys} setResult={setResult} />
-        <div>
+      <div className="flex px-5 gap-5 justify-evenly">
+        <Results className="w-1/2" keys={keys} setResult={setResult} />
+        <div className="w-1/2">
           <div className="text-center">Showed graph</div>
-          <div>Grade id: {result && result.getValue("gradeId")}</div>
-          <div>Graph id: {result && result.getValue("graphId")}</div>
-          <div>
-            Permutation: {result && result.getValue("result").permutation}
-          </div>
+          <div>Graph name: {result && result.graphName}</div>
+          <div>Permutation: {result && result.result.permutation.map(node => node + " ")}</div>
         </div>
       </div>
     </div>

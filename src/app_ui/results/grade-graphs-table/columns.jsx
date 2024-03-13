@@ -1,7 +1,15 @@
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { CellWithDescription } from "@/reusable/table/CellWithDescription";
 import { SortableColumnButton } from "@/reusable/table/button";
-import { Check, Loader2, X } from "lucide-react";
+import { Check, Info, Loader2, X } from "lucide-react";
 
-export const columns = [
+export const columns = (setResult) => [
   {
     accessorKey: "status",
     header: "Status",
@@ -48,17 +56,29 @@ export const columns = [
     cell: ({ row }) =>
       typeof row.original.result === "string" ? row.original.result : undefined,
   },
-  // {
-  //     accessorKey: "graphIds.length",
-  //     header: ({ column }) => (
-  //       <SortableColumnButton column={column}>
-  //         Number of graphs
-  //       </SortableColumnButton>
-  //     ),
-  //   },
-  // {
-  //     accessorKey: "result",
-  //     header: "Show",
-  //     cell: ({ row }) => {return row.getValue("status") != 'SUCCESS' ? <Button disabled>Show</Button> : <Button onClick={() => setResult(row)}>Show</Button>}
-  // }
+  {
+    accessorKey: "result",
+    header: "Show",
+    cell: ({ row }) => {
+      return row.getValue("status") === "SUCCESS" ? (
+        <Button className="w-full" onClick={() => setResult(row.original)}>Show</Button>
+      ) : row.getValue("status") === "FAILED" ? (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="bg-red-800 opacity-50 h-10 px-4 py-2 text-primary-foreground inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors">
+                Error
+                <Info size={15} className="ml-1 inline" />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <div className="max-w-80 text-pretty">{row.original.result}</div>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : (
+        <Button disabled>Show</Button>
+      );
+    },
+  },
 ];
