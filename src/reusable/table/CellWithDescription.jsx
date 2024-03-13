@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 
-export const RowWithDescription = ({ name, description }) =>
+export const CellWithDescription = ({ name, description }) =>
   description ? (
     <TooltipProvider>
       <Tooltip>
