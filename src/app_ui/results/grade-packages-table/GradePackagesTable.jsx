@@ -6,7 +6,6 @@ import { REFRESH_RATE } from "@/lib/constants";
 
 async function getGradePackage(i) {
   let grade = await get(`/grade/package?solutionId=${i}`);
-  console.log(grade);
   return grade;
 }
 
@@ -30,5 +29,11 @@ export function GradePackagesTable({ keys, setResult }) {
     }),
   );
 
-  return <DataTable columns={columns} setResult={setResult} data={data.map((res) => res.data)} />;
+  return (
+    <DataTable
+      columns={columns}
+      setResult={setResult}
+      data={data.map((res) => res.data)}
+    />
+  );
 }

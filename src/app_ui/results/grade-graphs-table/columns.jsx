@@ -61,7 +61,9 @@ export const columns = (setResult) => [
     header: "Show",
     cell: ({ row }) => {
       return row.getValue("status") === "SUCCESS" ? (
-        <Button className="w-full" onClick={() => setResult(row.original)}>Show</Button>
+        <Button className="w-full" onClick={() => setResult(row.original)}>
+          Show
+        </Button>
       ) : row.getValue("status") === "FAILED" ? (
         <TooltipProvider>
           <Tooltip>

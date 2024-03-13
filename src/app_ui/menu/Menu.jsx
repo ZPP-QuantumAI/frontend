@@ -26,7 +26,6 @@ export function Menu({ setKeys }) {
   function selectRecentAlgorithm(algorithm, index) {
     const newRecentAlgorithms = [algorithm, ...recentAlgorithms];
     newRecentAlgorithms.splice(index + 1, 1);
-    console.log(newRecentAlgorithms);
     setRecentAlgorithms(newRecentAlgorithms);
     setSelectedAlgorithm(algorithm);
   }
@@ -57,7 +56,6 @@ export function Menu({ setKeys }) {
       results.push(await result.text());
     }
 
-    console.log(results);
     setKeys(results);
   }
 

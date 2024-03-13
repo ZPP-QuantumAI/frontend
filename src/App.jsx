@@ -18,7 +18,10 @@ export default function App() {
         <div className="w-1/2">
           <div className="text-center">Showed graph</div>
           <div>Graph name: {result && result.graphName}</div>
-          <div>Permutation: {result && result.result.permutation.map(node => node + " ")}</div>
+          <div>
+            Permutation:{" "}
+            {result && result.result.permutation.map((node) => node + " ")}
+          </div>
         </div>
       </div>
     </div>
