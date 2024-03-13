@@ -105,11 +105,14 @@ export function Menu({ setKeys }) {
         </MenubarContent>
       </MenubarMenu>
       <Button
-        onClick={() => setSelectedAlgorithm()}
+        onClick={() => setKeys([])}
         variant="menu"
         size="menu"
         className="ml-auto"
       >
+        Clear results
+      </Button>
+      <Button onClick={() => setSelectedAlgorithm()} variant="menu" size="menu">
         Selected algorithm: {selectedAlgorithm && selectedAlgorithm.name}
         {!selectedAlgorithm && ""}
       </Button>

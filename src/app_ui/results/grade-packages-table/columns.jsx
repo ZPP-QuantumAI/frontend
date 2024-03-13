@@ -1,11 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CollapsibleTrigger } from "@/components/ui/collapsible";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { RowWithDescription } from "@/reusable/table/RowWithDescription";
+import { SortableColumnButton } from "@/reusable/table/button";
 import { Check, ChevronDown, Loader2, X } from "lucide-react";
 
 export const columns = [
@@ -26,32 +22,47 @@ export const columns = [
     },
   },
   {
-    accessorKey: "graphPackage.name",
-    header: "Package name",
-    cell: ({ row }) => (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>{row.original.graphPackage.name}</TooltipTrigger>
-          <TooltipContent>
-            <div className="max-w-80 text-pretty">
-              {row.original.graphPackage.description}
-            </div>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+    accessorKey: "algorithmName",
+    header: ({ column }) => (
+      <SortableColumnButton column={column}>
+        Algorithm name
+      </SortableColumnButton>
     ),
   },
   {
+    accessorKey: "graphPackage.name",
+    header: ({ column }) => (
+      <SortableColumnButton column={column}>Package name</SortableColumnButton>
+    ),
+    cell: ({ row }) => RowWithDescription(row.original.graphPackage),
+  },
+  {
     accessorKey: "graphPackage.graphIds.length",
-    header: "Number of graphs",
+    header: ({ column }) => (
+      <SortableColumnButton column={column}>
+        Number of graphs
+      </SortableColumnButton>
+    ),
   },
   {
     accessorKey: "runtimeInMs",
-    header: "Total runtime",
+    header: ({ column }) => (
+      <SortableColumnButton column={column}>Total runtime</SortableColumnButton>
+    ),
     cell: ({ row }) =>
       row.getValue("runtimeInMs")
         ? row.getValue("runtimeInMs") + " ms"
         : row.getValue("runtimeInMs"),
+  },
+  {
+    accessorKey: "finalGrade.finalGrade.sumOfWeights",
+    header: ({ column }) => (
+      <SortableColumnButton column={column}>
+        Total distance
+      </SortableColumnButton>
+    ),
+    cell: ({ row }) =>
+      row.original.finalGrade?.finalGrade?.sumOfWeights?.toFixed(2),
   },
   {
     id: "expand",
