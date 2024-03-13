@@ -1,6 +1,7 @@
 import {
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -14,13 +15,19 @@ import {
 } from "@/components/ui/table";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { GraphPackagesTable } from "../grade-graphs-table/GraphPackagesTable";
+import { useState } from "react";
 
 export function DataTable({ columns, data }) {
+  const [sorting, setSorting] = useState([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getRowId: (row) => row.solutionId,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: { sorting },
   });
 
   return (

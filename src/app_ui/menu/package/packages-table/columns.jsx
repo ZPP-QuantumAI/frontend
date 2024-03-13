@@ -1,10 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { RowWithDescription } from "@/reusable/table/RowWithDescription";
 import { SortableColumnButton } from "@/reusable/table/button";
 import { SelectColumnCheckBox } from "@/reusable/table/checkbox";
 
@@ -24,18 +19,7 @@ export const columns = [
     header: ({ column }) => (
       <SortableColumnButton column={column}>Name</SortableColumnButton>
     ),
-    cell: ({ row }) => (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>{row.getValue("name")}</TooltipTrigger>
-          <TooltipContent>
-            <div className="max-w-80 text-pretty">
-              {row.original.description}
-            </div>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    ),
+    cell: ({ row }) => RowWithDescription(row.original),
   },
   {
     accessorKey: "graphIds.length",

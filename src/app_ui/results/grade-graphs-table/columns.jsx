@@ -19,6 +19,12 @@ export const columns = [
     },
   },
   {
+    accessorKey: "graphName",
+    header: ({ column }) => (
+      <SortableColumnButton column={column}>Graph name</SortableColumnButton>
+    ),
+  },
+  {
     accessorKey: "runtimeInMs",
     header: ({ column }) => (
       <SortableColumnButton column={column}>Runtime</SortableColumnButton>
@@ -36,6 +42,12 @@ export const columns = [
     ),
     cell: ({ row }) => row.original.result?.sumOfWeights?.toFixed(2),
   },
+  {
+    id: "error",
+    header: "Error info",
+    cell: ({ row }) =>
+      typeof row.original.result === "string" ? row.original.result : undefined,
+  },
   // {
   //     accessorKey: "graphIds.length",
   //     header: ({ column }) => (
@@ -44,10 +56,6 @@ export const columns = [
   //       </SortableColumnButton>
   //     ),
   //   },
-  // {
-  //     accessorKey: "graph.name",
-  //     header: "Graph name",
-  // },
   // {
   //     accessorKey: "result",
   //     header: "Show",
