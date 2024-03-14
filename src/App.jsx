@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Menu } from "./app_ui/menu/Menu";
 import Results from "./app_ui/results/Results";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { ResultMapLeaflet } from "./app_ui/results/ResultMapLeaflet";
 
 export default function App() {
   const [keys, setKeys] = useState(
@@ -13,15 +15,10 @@ export default function App() {
   return (
     <div className="flex flex-col gap-5">
       <Menu setKeys={setKeys} />
-      <div className="flex px-5 gap-5 justify-evenly">
+      <div className="flex px-5 gap-5 justify-evenly items-start">
         <Results className="w-1/2" keys={keys} setResult={setResult} />
         <div className="w-1/2">
-          <div className="text-center">Showed graph</div>
-          <div>Graph name: {result && result.graphName}</div>
-          <div>
-            Permutation:{" "}
-            {result && result.result.permutation.map((node) => node + " ")}
-          </div>
+          <ResultMapLeaflet />
         </div>
       </div>
     </div>
