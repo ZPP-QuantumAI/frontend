@@ -14,13 +14,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+const ZIP_TYPES = ["application/zip", "application/octet-stream", "application/x-zip-compressed", "multipart/x-zip"]
+
 const algorithmSchema = z.object({
   name: z.string().min(1, "Name can't be empty!"),
   algorithm: z
     .instanceof(FileList)
     .refine((files) => files?.length === 1, "No algorithm provided!")
     .refine(
-      (files) => files?.[0]?.type === "application/zip",
+      (files) => ZIP_TYPES.includes(files?.[0]?.type) && files?.[0]?.name.endsWith(".zip"),
       "Not a zip archive!",
     ),
 });
@@ -62,7 +64,7 @@ export function AlgorithmForm({ setSelectedAlgorithm, setOpen }) {
             <FormItem>
               <FormLabel>File</FormLabel>
               <FormControl>
-                <Input type="file" accept="application/zip" {...fileRef} />
+                <Input type="file" accept=".zip" {...fileRef} />
               </FormControl>
               <FormDescription>
                 Provide algorithm in zip archive.
