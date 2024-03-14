@@ -16,8 +16,10 @@ export default function App() {
     <div className="flex flex-col gap-5">
       <Menu setKeys={setKeys} />
       <div className="flex px-5 gap-5 justify-evenly items-start">
-        <Results className="w-1/2" keys={keys} setResult={setResult} />
-        <div className="w-1/2">
+        <div className="w-3/5">
+          <Results keys={keys} setResult={setResult} />
+        </div>
+        <div className="w-2/5">
           <ResultMapLeaflet />
         </div>
       </div>
