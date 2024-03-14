@@ -9,7 +9,7 @@ async function getGradePackage(i) {
   return grade;
 }
 
-export function GradePackagesTable({ keys, setResult }) {
+export function GradePackagesTable({ keys, changeResult }) {
   const data = useQueries(
     keys.map((i) => {
       return {
@@ -32,7 +32,7 @@ export function GradePackagesTable({ keys, setResult }) {
   return (
     <DataTable
       columns={columns}
-      setResult={setResult}
+      changeResult={changeResult}
       data={data.map((res) => res.data)}
     />
   );

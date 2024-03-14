@@ -1,6 +1,18 @@
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
-export function ResultMapLeaflet() {
+// Masz to w takim formacie: result = {
+//   "permutation": [
+//     0,
+//     0
+//   ],
+//   "nodes": [
+//     {
+//       "x": 0,
+//       "y": 0
+//     }
+//   ]
+// }
+export function ResultMapLeaflet({ result }) {
   return (
     <MapContainer
       className="h-[60vh]"
