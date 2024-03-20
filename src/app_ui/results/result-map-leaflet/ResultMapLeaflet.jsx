@@ -1,4 +1,6 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { useEffect, useState } from "react";
+import { set } from "react-hook-form";
+import { MapContainer, Marker, Popup, TileLayer, Polyline, useMap } from "react-leaflet";
 
 // Masz to w takim formacie: result = {
 //   "permutation": [
@@ -12,11 +14,30 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 //     }
 //   ]
 // }
+
 export function ResultMapLeaflet({ result }) {
+  let nodes = [];
+  let lines = [];
+  let [ center, setCenter ] = useState([51.505, -0.09])
+
+  useEffect(() => {
+    if (result && result.nodes && Array.isArray(result.nodes) && result.nodes.length > 0) {
+        nodes = result.nodes;
+    
+        for (let i = 0; i < nodes.length - 1; i++) {
+          lines.push([[nodes[i].y, nodes[i].x], [nodes[i + 1].y, nodes[i + 1].x]]);
+        }
+    
+        setCenter([nodes[0].x, nodes[0].y]);
+        // const map = useMap();
+        // map.setView([nodes[0].x, nodes[0].y], map.getZoom);
+      }
+  }, [result])
+
   return (
     <MapContainer
       className="h-[60vh]"
-      center={[51.505, -0.09]}
+      center={center}
       zoom={13}
       scrollWheelZoom={false}
     >
@@ -24,11 +45,16 @@ export function ResultMapLeaflet({ result }) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[51.505, -0.09]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      {nodes.map((node, index) => (
+        <Marker key={index} position={[node.y, node.x]}>
+          <Popup>
+            Coordinate: {node.x}, {node.y}
+          </Popup>
+        </Marker>
+      ))}
+      {lines.map((line, index) => (
+        <Polyline key={index} positions={line} color="blue" />
+      ))}
     </MapContainer>
   );
 }
