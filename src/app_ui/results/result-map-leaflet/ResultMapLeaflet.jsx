@@ -1,60 +1,96 @@
 import { useEffect, useState } from "react";
-import { set } from "react-hook-form";
-import { MapContainer, Marker, Popup, TileLayer, Polyline, useMap } from "react-leaflet";
-
-// Masz to w takim formacie: result = {
-//   "permutation": [
-//     0,
-//     0
-//   ],
-//   "nodes": [
-//     {
-//       "x": 0,
-//       "y": 0
-//     }
-//   ]
-// }
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  Polyline,
+  useMap,
+} from "react-leaflet";
 
 export function ResultMapLeaflet({ result }) {
-  let nodes = [];
-  let lines = [];
-  let [ center, setCenter ] = useState([51.505, -0.09])
+  const [bounds, setBounds] = useState([
+    [0, 0],
+    [0, 0],
+  ]);
 
   useEffect(() => {
-    if (result && result.nodes && Array.isArray(result.nodes) && result.nodes.length > 0) {
-        nodes = result.nodes;
-    
-        for (let i = 0; i < nodes.length - 1; i++) {
-          lines.push([[nodes[i].y, nodes[i].x], [nodes[i + 1].y, nodes[i + 1].x]]);
-        }
-    
-        setCenter([nodes[0].x, nodes[0].y]);
-        // const map = useMap();
-        // map.setView([nodes[0].x, nodes[0].y], map.getZoom);
-      }
-  }, [result])
+    if (
+      result &&
+      result.nodes &&
+      Array.isArray(result.nodes) &&
+      result.nodes.length > 0
+    ) {
+      const nodes = result.nodes;
+      const xCoordinates = nodes.map((node) => node.x);
+      const yCoordinates = nodes.map((node) => node.y);
+
+      const minX = Math.min(...xCoordinates);
+      const minY = Math.min(...yCoordinates);
+      const maxX = Math.max(...xCoordinates);
+      const maxY = Math.max(...yCoordinates);
+
+      setBounds([
+        [minX, minY],
+        [maxX, maxY],
+      ]);
+    }
+  }, [result]);
 
   return (
     <MapContainer
       className="h-[60vh]"
-      center={center}
+      center={[51.505, -0.09]}
       zoom={13}
       scrollWheelZoom={false}
     >
+      <ResultMapContent result={result} bounds={bounds} />
+    </MapContainer>
+  );
+}
+
+function ResultMapContent({ result, bounds }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (bounds) {
+      map.fitBounds(bounds);
+    }
+  }, [bounds, map]);
+
+  return (
+    <>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {nodes.map((node, index) => (
-        <Marker key={index} position={[node.y, node.x]}>
-          <Popup>
-            Coordinate: {node.x}, {node.y}
-          </Popup>
-        </Marker>
-      ))}
-      {lines.map((line, index) => (
-        <Polyline key={index} positions={line} color="blue" />
-      ))}
-    </MapContainer>
+      {result &&
+        result.nodes &&
+        Array.isArray(result.nodes) &&
+        result.nodes.map((node, index) => (
+          <Marker key={index} position={[node.x, node.y]}>
+            <Popup>
+              Coordinate: {node.x}, {node.y}
+            </Popup>
+          </Marker>
+        ))}
+      {result &&
+        result.nodes &&
+        Array.isArray(result.nodes) &&
+        result.nodes.length > 1 &&
+        result.nodes.map(
+          (node, index) =>
+            index < result.nodes.length - 1 && (
+              <Polyline
+                key={index}
+                positions={[
+                  [node.x, node.y],
+                  [result.nodes[index + 1].x, result.nodes[index + 1].y],
+                ]}
+                color="blue"
+              />
+            ),
+        )}
+    </>
   );
 }
