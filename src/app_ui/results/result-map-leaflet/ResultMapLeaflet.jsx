@@ -54,7 +54,7 @@ function ResultMapContent({ result, bounds }) {
 
   useEffect(() => {
     if (bounds) {
-      map.fitBounds(bounds);
+      map.flyToBounds(bounds)
     }
   }, [bounds, map]);
 
