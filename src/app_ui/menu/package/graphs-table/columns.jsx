@@ -14,17 +14,23 @@ export const columns = [
     ),
   },
   {
-    accessorKey: "name",
+    accessorKey: "graph.name",
     header: ({ column }) => (
       <SortableColumnButton column={column}>Name</SortableColumnButton>
     ),
   },
   {
-    accessorKey: "nodes.length",
+    accessorKey: "graph.nodes.length",
     header: ({ column }) => (
       <SortableColumnButton column={column}>
         Number of nodes
       </SortableColumnButton>
+    ),
+  },
+  {
+    accessorKey: "graphType",
+    header: ({ column }) => (
+      <SortableColumnButton column={column}>Type</SortableColumnButton>
     ),
   },
 ];

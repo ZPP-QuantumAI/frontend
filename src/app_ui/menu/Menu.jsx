@@ -17,6 +17,7 @@ import { API_URL, RECENT_ALGORITHMS_NUM } from "@/lib/constants";
 import { AddPackage } from "./package/AddPackage";
 import { SelectPackages } from "./package/SelectPackages";
 import { useMutation } from "react-query";
+import { AddMapGraph } from "./graph/AddMapGraph";
 
 export function Menu({ setKeys }) {
   const [selectedPackages, setSelectedPackages] = useState([]);
@@ -54,6 +55,7 @@ export function Menu({ setKeys }) {
         body: data,
       });
       results.push(await result.text());
+      console.log(results);
     }
 
     setKeys(results);
@@ -99,6 +101,7 @@ export function Menu({ setKeys }) {
         <MenubarTrigger>Graph</MenubarTrigger>
         <MenubarContent>
           <AddGraph></AddGraph>
+          <AddMapGraph></AddMapGraph>
           {/* <SelectGraphs selectedGraphs={selectedGraphs} setSelectedGraphs={setSelectedGraphs}></SelectGraphs> */}
         </MenubarContent>
       </MenubarMenu>

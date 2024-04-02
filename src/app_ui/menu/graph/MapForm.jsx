@@ -10,22 +10,18 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { post } from "@/lib/requests";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { useMutation } from "react-query";
 import * as z from "zod";
 
-const regexInput =
-  /^([+-]?\d+(\.\d+)? [+-]?\d+(\.\d+)?\n)*([+-]?\d+(\.\d+)? [+-]?\d+(\.\d+)?\n?)$/;
-
 const graphSchema = z.object({
   name: z.string().min(1, "Name can't be empty!"),
-  nodes: z.string().regex(regexInput, "Wrong format!"),
+  nodes: z.any().array().nonempty("Graph can't have no points!"),
 });
 
-export function GraphForm({ setOpen, createGraph }) {
+export function MapForm({ setOpen, createGraph }) {
   const graphMutation = useMutation({
     mutationFn: createGraph,
     onSuccess: () => setOpen(false),
@@ -35,7 +31,7 @@ export function GraphForm({ setOpen, createGraph }) {
     resolver: zodResolver(graphSchema),
     defaultValues: {
       name: "",
-      nodes: "",
+      nodes: [],
     },
   });
 
@@ -64,9 +60,9 @@ export function GraphForm({ setOpen, createGraph }) {
           name="nodes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nodes</FormLabel>
+              <FormLabel>Map</FormLabel>
               <FormControl>
-                <Textarea className="h-[40vh]" {...field} />
+                <MapArea nodes={field.value} setNodes={field.onChange} />
               </FormControl>
               <FormDescription>Provide nodes coordinates.</FormDescription>
               <FormMessage />
@@ -74,6 +70,14 @@ export function GraphForm({ setOpen, createGraph }) {
           )}
         ></FormField>
         <DialogFooter>
+          <Button
+            className="mr-auto"
+            type="button"
+            variant="destructive"
+            onClick={() => graphForm.resetField("nodes")}
+          >
+            Clear
+          </Button>
           <Button
             type="submit"
             isLoading={graphMutation.isLoading}
@@ -84,5 +88,44 @@ export function GraphForm({ setOpen, createGraph }) {
         </DialogFooter>
       </form>
     </Form>
+  );
+}
+
+function MapArea(props) {
+  return (
+    <MapContainer
+      className="h-[40vh]"
+      center={[52.21187670838484, 20.982926472010455]}
+      zoom={13}
+      scrollWheelZoom={true}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <MapAreaContent {...props} />
+    </MapContainer>
+  );
+}
+
+function MapAreaContent({ nodes, setNodes }) {
+  function deleteMarker(i) {
+    setNodes(nodes.filter((node, index) => index !== i));
+  }
+  const map = useMapEvents({
+    click(e) {
+      setNodes([...nodes, e.latlng]);
+    },
+  });
+  return (
+    <>
+      {nodes.map((loc, index) => (
+        <Marker
+          eventHandlers={{ click: () => deleteMarker(index) }}
+          key={index}
+          position={loc}
+        ></Marker>
+      ))}
+    </>
   );
 }
