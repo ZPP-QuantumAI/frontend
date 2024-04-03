@@ -1,3 +1,4 @@
+// TODO ogarnac to!!!
 import { useEffect, useState } from "react";
 import {
   MapContainer,
@@ -74,18 +75,22 @@ function ResultMapContent({ result, bounds }) {
             </Popup>
           </Marker>
         ))}
+      {console.log(result)}
       {result &&
         result.nodes &&
         Array.isArray(result.nodes) &&
         result.nodes.length > 1 &&
-        result.nodes.map(
-          (node, index) =>
+        result.permutation.map(
+          (i, index) =>
             index < result.nodes.length - 1 && (
               <Polyline
                 key={index}
                 positions={[
-                  [node.x, node.y],
-                  [result.nodes[index + 1].x, result.nodes[index + 1].y],
+                  [result.nodes[i].x, result.nodes[i].y],
+                  [
+                    result.nodes[result.permutation[index + 1]].x,
+                    result.nodes[result.permutation[index + 1]].y,
+                  ],
                 ]}
                 color="blue"
               />
