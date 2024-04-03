@@ -11,8 +11,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { latLngBounds } from "leaflet";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import { useMutation } from "react-query";
 import * as z from "zod";
 
@@ -22,6 +30,8 @@ const graphSchema = z.object({
 });
 
 export function MapForm({ setOpen, createGraph }) {
+  const childRef = useRef();
+
   const graphMutation = useMutation({
     mutationFn: createGraph,
     onSuccess: () => setOpen(false),
@@ -62,7 +72,11 @@ export function MapForm({ setOpen, createGraph }) {
             <FormItem>
               <FormLabel>Map</FormLabel>
               <FormControl>
-                <MapArea nodes={field.value} setNodes={field.onChange} />
+                <MapArea
+                  nodes={field.value}
+                  setNodes={field.onChange}
+                  ref={childRef}
+                />
               </FormControl>
               <FormDescription>
                 Click on map to add nodes. Click again to delete.
@@ -72,14 +86,20 @@ export function MapForm({ setOpen, createGraph }) {
           )}
         ></FormField>
         <DialogFooter>
-          <Button
-            className="mr-auto"
-            type="button"
-            variant="destructive"
-            onClick={() => graphForm.resetField("nodes")}
-          >
-            Clear {graphForm.watch("nodes").length} nodes
-          </Button>
+          <span className="mr-auto space-x-2">
+            <Button
+              className="w-32"
+              type="button"
+              variant="destructive"
+              onClick={() => graphForm.resetField("nodes")}
+            >
+              Clear {graphForm.watch("nodes").length} nodes
+            </Button>
+            <Button onClick={() => childRef.current.fitMap()} type="button">
+              Fit nodes
+            </Button>
+          </span>
+
           <Button
             type="submit"
             isLoading={graphMutation.isLoading}
@@ -93,7 +113,7 @@ export function MapForm({ setOpen, createGraph }) {
   );
 }
 
-function MapArea(props) {
+const MapArea = forwardRef(function MapArea(props, ref) {
   return (
     <MapContainer
       className="h-[40vh]"
@@ -105,20 +125,34 @@ function MapArea(props) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <MapAreaContent {...props} />
+      <MapAreaContent {...props} ref={ref} />
     </MapContainer>
   );
-}
+});
 
-function MapAreaContent({ nodes, setNodes }) {
+const MapAreaContent = forwardRef(function MapAreaContent(
+  { nodes, setNodes },
+  ref,
+) {
+  const map = useMap();
+
+  useImperativeHandle(ref, () => ({
+    fitMap() {
+      nodes.length > 0 &&
+        map.fitBounds(latLngBounds(nodes), { padding: [10, 10] });
+    },
+  }));
+
   function deleteMarker(i) {
     setNodes(nodes.filter((node, index) => index !== i));
   }
+
   useMapEvents({
     click(e) {
       setNodes([...nodes, e.latlng]);
     },
   });
+
   return (
     <>
       {nodes.map((loc, index) => (
@@ -130,4 +164,4 @@ function MapAreaContent({ nodes, setNodes }) {
       ))}
     </>
   );
-}
+});

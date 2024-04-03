@@ -61,7 +61,7 @@ function ShowGraph({ graph }) {
 
   const bounds = latLngBounds(nodes);
   const map = useMap();
-  map.fitBounds(bounds);
+  map.fitBounds(bounds, { padding: [10, 10] });
 
   return (
     <>
