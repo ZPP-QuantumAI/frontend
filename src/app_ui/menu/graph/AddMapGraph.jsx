@@ -15,24 +15,22 @@ import { MapForm } from "./MapForm";
 
 const regexNumber = /[+-]?\d+(\.\d+)? [+-]?\d+(\.\d+)?/g;
 
-async function createEuclideanGraph(newGraph) {
-  newGraph.coordinatesInDecimal = newGraph.nodes.match(regexNumber).map((s) => {
+async function createGraphList(newGraph) {
+  newGraph.nodes = newGraph.nodes.match(regexNumber).map((s) => {
     const numbers = s.split(" ");
     return {
       longitudeInDecimal: parseFloat(numbers[0]),
       latitudeInDecimal: parseFloat(numbers[1]),
     };
   });
-  delete newGraph.nodes;
   await post("/graph/map", newGraph);
 }
 
-async function createMapGraph(newGraph) {
-  newGraph.coordinatesInDecimal = newGraph.nodes.map(({ lat, lng }) => ({
+async function createGraphMap(newGraph) {
+  newGraph.nodes = newGraph.nodes.map(({ lat, lng }) => ({
     longitudeInDecimal: lng,
     latitudeInDecimal: lat,
   }));
-  delete newGraph.nodes;
   await post("/graph/map", newGraph);
 }
 
@@ -58,12 +56,12 @@ export function AddMapGraph() {
             </TabsList>
           </div>
           <TabsContent value="map">
-            <MapForm setOpen={setOpen} createGraph={createMapGraph}></MapForm>
+            <MapForm setOpen={setOpen} createGraph={createGraphMap}></MapForm>
           </TabsContent>
           <TabsContent value="list">
             <GraphForm
               setOpen={setOpen}
-              createGraph={createEuclideanGraph}
+              createGraph={createGraphList}
             ></GraphForm>
           </TabsContent>
         </Tabs>

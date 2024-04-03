@@ -52,12 +52,10 @@ function ShowGraph({ graph }) {
   const nodes =
     graph.graphType === "EUCLIDEAN"
       ? graph.graph.nodes.map(({ x, y }) => ({ lat: x, lng: y }))
-      : graph.graph.coordinates.map(
-          ({ longitudeInRadians, latitudeInRadians }) => ({
-            lng: longitudeInRadians,
-            lat: latitudeInRadians,
-          }),
-        );
+      : graph.graph.nodes.map(({ longitudeInDecimal, latitudeInDecimal }) => ({
+          lng: longitudeInDecimal,
+          lat: latitudeInDecimal,
+        }));
 
   const bounds = latLngBounds(nodes);
   const map = useMap();

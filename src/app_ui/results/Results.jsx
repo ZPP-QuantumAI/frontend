@@ -13,10 +13,10 @@ export default function Results({ keys }) {
     simpleResult.nodes =
       newGraph.graphType === "EUCLIDEAN"
         ? newGraph.graph.nodes
-        : newGraph.graph.coordinates.map(
-            ({ longitudeInRadians, latitudeInRadians }) => ({
-              x: longitudeInRadians,
-              y: latitudeInRadians,
+        : newGraph.graph.nodes.map(
+            ({ longitudeInDecimal, latitudeInDecimal }) => ({
+              y: longitudeInDecimal,
+              x: latitudeInDecimal,
             }),
           );
     setResult(simpleResult);
