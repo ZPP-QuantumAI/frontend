@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { post } from "@/lib/requests";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
@@ -19,22 +18,13 @@ import * as z from "zod";
 
 const regexInput =
   /^([+-]?\d+(\.\d+)? [+-]?\d+(\.\d+)?\n)*([+-]?\d+(\.\d+)? [+-]?\d+(\.\d+)?\n?)$/;
-const regexNumber = /[+-]?\d+(\.\d+)? [+-]?\d+(\.\d+)?/g;
 
 const graphSchema = z.object({
   name: z.string().min(1, "Name can't be empty!"),
   nodes: z.string().regex(regexInput, "Wrong format!"),
 });
 
-async function createGraph(newGraph) {
-  newGraph.nodes = newGraph.nodes.match(regexNumber).map((s) => {
-    const numbers = s.split(" ");
-    return { x: parseFloat(numbers[0]), y: parseFloat(numbers[1]) };
-  });
-  await post("/graph/", newGraph);
-}
-
-export function GraphForm({ setOpen }) {
+export function GraphForm({ setOpen, createGraph }) {
   const graphMutation = useMutation({
     mutationFn: createGraph,
     onSuccess: () => setOpen(false),
@@ -75,7 +65,7 @@ export function GraphForm({ setOpen }) {
             <FormItem>
               <FormLabel>Nodes</FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                <Textarea className="h-[40vh]" {...field} />
               </FormControl>
               <FormDescription>Provide nodes coordinates.</FormDescription>
               <FormMessage />

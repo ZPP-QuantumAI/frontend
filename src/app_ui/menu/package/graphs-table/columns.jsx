@@ -1,4 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
+import { PreviewGraph } from "@/reusable/table/PreviewGraph";
 import { SortableColumnButton } from "@/reusable/table/button";
 import { SelectColumnCheckBox } from "@/reusable/table/checkbox";
 
@@ -14,17 +15,24 @@ export const columns = [
     ),
   },
   {
-    accessorKey: "name",
+    accessorKey: "graph.name",
     header: ({ column }) => (
       <SortableColumnButton column={column}>Name</SortableColumnButton>
     ),
+    cell: ({ row }) => <PreviewGraph row={row.original}></PreviewGraph>,
   },
   {
-    accessorKey: "nodes.length",
+    accessorKey: "graph.nodes.length",
     header: ({ column }) => (
       <SortableColumnButton column={column}>
         Number of nodes
       </SortableColumnButton>
+    ),
+  },
+  {
+    accessorKey: "graphType",
+    header: ({ column }) => (
+      <SortableColumnButton column={column}>Type</SortableColumnButton>
     ),
   },
 ];

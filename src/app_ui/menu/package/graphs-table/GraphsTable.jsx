@@ -15,7 +15,7 @@ export function GraphsTable({ value, onChange }) {
   const graphs = useQuery(
     "graphs",
     async () => {
-      return await get("/graph/all");
+      return await get("/graph/all/new");
     },
     {
       initialData: [],
@@ -27,7 +27,7 @@ export function GraphsTable({ value, onChange }) {
       data={graphs.data}
       rowSelection={rowSelection}
       setRowSelection={setRowSelection}
-      rowIdFun={(row) => row.id}
+      rowIdFun={(row) => row.graph.id}
     >
       No graphs.
     </SelectableDataTable>

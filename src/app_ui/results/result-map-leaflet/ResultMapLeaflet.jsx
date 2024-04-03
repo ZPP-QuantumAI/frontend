@@ -40,9 +40,9 @@ export function ResultMapLeaflet({ result }) {
   return (
     <MapContainer
       className="h-[60vh]"
-      center={[51.505, -0.09]}
+      center={[0, 0]}
       zoom={13}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
     >
       <ResultMapContent result={result} bounds={bounds} />
     </MapContainer>
@@ -54,7 +54,7 @@ function ResultMapContent({ result, bounds }) {
 
   useEffect(() => {
     if (bounds) {
-      map.fitBounds(bounds);
+      map.fitBounds(bounds, { padding: [10, 10] });
     }
   }, [bounds, map]);
 
