@@ -19,8 +19,8 @@ async function createGraphList(newGraph) {
   newGraph.nodes = newGraph.nodes.match(regexNumber).map((s) => {
     const numbers = s.split(" ");
     return {
-      longitudeInDecimal: parseFloat(numbers[0]),
-      latitudeInDecimal: parseFloat(numbers[1]),
+      longitudeInDecimal: parseFloat(numbers[1]),
+      latitudeInDecimal: parseFloat(numbers[0]),
     };
   });
   await post("/graph/map", newGraph);
