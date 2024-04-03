@@ -1,11 +1,11 @@
 // TODO ogarnac to!!!
+import AntPath from "@/reusable/AntPath";
 import { useEffect, useState } from "react";
 import {
   MapContainer,
   Marker,
   Popup,
   TileLayer,
-  Polyline,
   useMap,
 } from "react-leaflet";
 
@@ -81,8 +81,8 @@ function ResultMapContent({ result, bounds }) {
         result.nodes.length > 1 &&
         result.permutation.map(
           (i, index) =>
-            index < result.nodes.length - 1 && (
-              <Polyline
+            index < result.nodes.length && (
+              <AntPath
                 key={index}
                 positions={[
                   [result.nodes[i].x, result.nodes[i].y],
@@ -91,7 +91,6 @@ function ResultMapContent({ result, bounds }) {
                     result.nodes[result.permutation[index + 1]].y,
                   ],
                 ]}
-                color="blue"
               />
             ),
         )}
