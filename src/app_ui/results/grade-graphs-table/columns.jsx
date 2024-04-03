@@ -26,6 +26,12 @@ export const columns = (setResult) => [
     ),
   },
   {
+    accessorKey: "graphType",
+    header: ({ column }) => (
+      <SortableColumnButton column={column}>Graph type</SortableColumnButton>
+    ),
+  },
+  {
     accessorKey: "runtimeInMs",
     header: ({ column }) => (
       <SortableColumnButton column={column}>Runtime</SortableColumnButton>
