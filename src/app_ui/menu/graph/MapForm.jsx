@@ -64,7 +64,9 @@ export function MapForm({ setOpen, createGraph }) {
               <FormControl>
                 <MapArea nodes={field.value} setNodes={field.onChange} />
               </FormControl>
-              <FormDescription>Provide nodes coordinates.</FormDescription>
+              <FormDescription>
+                Click on map to add nodes. Click again to delete.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -76,7 +78,7 @@ export function MapForm({ setOpen, createGraph }) {
             variant="destructive"
             onClick={() => graphForm.resetField("nodes")}
           >
-            Clear
+            Clear {graphForm.watch("nodes").length} nodes
           </Button>
           <Button
             type="submit"

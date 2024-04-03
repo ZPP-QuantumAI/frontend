@@ -9,9 +9,16 @@ export default function Results({ keys }) {
   async function changeResult(newResult) {
     const simpleResult = {};
     simpleResult.permutation = newResult.result.permutation;
-    simpleResult.nodes = (
-      await get(`/graph/?graphId=${newResult.graphId}`)
-    ).nodes;
+    const newGraph = await get(`/graph/new?graphId=${newResult.graphId}`);
+    simpleResult.nodes =
+      newGraph.graphType === "EUCLIDEAN"
+        ? newGraph.graph.nodes
+        : newGraph.graph.coordinates.map(
+            ({ longitudeInRadians, latitudeInRadians }) => ({
+              x: longitudeInRadians,
+              y: latitudeInRadians,
+            }),
+          );
     setResult(simpleResult);
   }
 
