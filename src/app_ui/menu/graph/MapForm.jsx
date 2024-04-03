@@ -114,7 +114,7 @@ function MapAreaContent({ nodes, setNodes }) {
   function deleteMarker(i) {
     setNodes(nodes.filter((node, index) => index !== i));
   }
-  const map = useMapEvents({
+  useMapEvents({
     click(e) {
       setNodes([...nodes, e.latlng]);
     },

@@ -55,7 +55,6 @@ export function Menu({ setKeys }) {
         body: data,
       });
       results.push(await result.text());
-      console.log(results);
     }
 
     setKeys(results);
