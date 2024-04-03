@@ -75,7 +75,6 @@ function ResultMapContent({ result, bounds }) {
             </Popup>
           </Marker>
         ))}
-      {console.log(result)}
       {result &&
         result.nodes &&
         Array.isArray(result.nodes) &&
