@@ -1,6 +1,6 @@
 import AntPath from "@/reusable/AntPath";
 import { latLngBounds } from "leaflet";
-import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, ZoomControl, useMap } from "react-leaflet";
 
 export function ResultMap({ result }) {
   const newResult = { ...result };
@@ -17,12 +17,14 @@ export function ResultMap({ result }) {
       center={[0, 0]}
       zoom={13}
       scrollWheelZoom={true}
+      zoomControl={false}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ResultMapContent result={newResult} />
+      <ZoomControl position="bottomright"></ZoomControl>
     </MapContainer>
   );
 }

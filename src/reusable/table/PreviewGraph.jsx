@@ -46,7 +46,8 @@ function DisplayGraph({ id }) {
           className="h-[40vh]"
           center={[52.21187670838484, 20.982926472010455]}
           zoom={13}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
+          zoomControl={false}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
