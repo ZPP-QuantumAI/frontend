@@ -12,7 +12,6 @@ export default function Results({ keys }) {
     const newGraph = await get(`/graph/new?graphId=${newResult.graphId}`);
     newGraph.graph.permutation = newResult.result.permutation;
     setResult(newGraph);
-    console.log("zmiana");
   }
 
   return (
