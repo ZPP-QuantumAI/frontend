@@ -17,3 +17,14 @@ export async function get(path) {
 
   return await result.json();
 }
+
+export async function deleteReq(path) {
+  const result = await fetch(`${API_URL}${path}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "DELETE",
+  });
+
+  return await result.text();
+}
