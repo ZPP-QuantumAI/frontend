@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { columns } from "./columns";
-import { useQuery } from "react-query";
-import { get } from "@/lib/requests";
+import { useQuery, useQueryClient } from "react-query";
+import { deleteReq, get } from "@/lib/requests";
 import { SelectableDataTable } from "@/reusable/table/SelectableDataTable";
 
 export function PackagesTable({
@@ -13,6 +13,13 @@ export function PackagesTable({
   const packages = useQuery("packages", async () => {
     return await get("/package/all");
   });
+  const queryClient = useQueryClient();
+
+  async function deletePackage(row) {
+    row.toggleSelected(false);
+    await deleteReq(`/package/?packageId=${row.id}`);
+    queryClient.invalidateQueries({ queryKey: ["packages"] });
+  }
 
   useEffect(() => {
     setRowSelection(
@@ -32,6 +39,7 @@ export function PackagesTable({
           rowSelection={rowSelection}
           setRowSelection={setRowSelection}
           rowIdFun={(row) => row.packageId}
+          meta={{ deleteRow: deletePackage }}
         >
           No packages.
         </SelectableDataTable>

@@ -8,7 +8,11 @@ describe("GraphForm", async () => {
   test("add proper graph", async () => {
     const createGraph = vi.fn();
     const setOpen = vi.fn();
-    render(<QueryClientProvider client={queryClient}><GraphForm createGraph={createGraph} setOpen={setOpen} /></QueryClientProvider> );
+    render(
+      <QueryClientProvider client={queryClient}>
+        <GraphForm createGraph={createGraph} setOpen={setOpen} />
+      </QueryClientProvider>,
+    );
 
     fireEvent.change(screen.getByLabelText("Name"), {
       target: { value: "test" },
@@ -21,13 +25,22 @@ describe("GraphForm", async () => {
     fireEvent.click(screen.getByText("Add"));
 
     await waitFor(() => expect(setOpen).toBeCalledWith(false));
-    await waitFor(() => expect(createGraph).toBeCalledWith({name: "test", nodes: "0 0\n1.5 1.5\n2 2"}));
+    await waitFor(() =>
+      expect(createGraph).toBeCalledWith({
+        name: "test",
+        nodes: "0 0\n1.5 1.5\n2 2",
+      }),
+    );
   });
 
   test("add graph with wrong nodes", async () => {
     const createGraph = vi.fn();
     const setOpen = vi.fn();
-    render(<QueryClientProvider client={queryClient}><GraphForm createGraph={createGraph} setOpen={setOpen} /></QueryClientProvider> );
+    render(
+      <QueryClientProvider client={queryClient}>
+        <GraphForm createGraph={createGraph} setOpen={setOpen} />
+      </QueryClientProvider>,
+    );
 
     fireEvent.change(screen.getByLabelText("Name"), {
       target: { value: "test" },

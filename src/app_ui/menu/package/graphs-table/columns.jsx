@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PreviewGraph } from "@/reusable/table/PreviewGraph";
 import { SortableColumnButton } from "@/reusable/table/button";
@@ -10,7 +11,7 @@ export const columns = [
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onClick={row.getToggleSelectedHandler()}
       />
     ),
   },
@@ -33,6 +34,23 @@ export const columns = [
     accessorKey: "graphType",
     header: ({ column }) => (
       <SortableColumnButton column={column}>Type</SortableColumnButton>
+    ),
+  },
+  {
+    id: "delete",
+    header: "Delete",
+    cell: ({ row, table }) => (
+      <Button
+        type="button"
+        variant="destructive"
+        className="text-black"
+        checked={row.getIsSelected()}
+        onClick={async () => {
+          table.options.meta.deleteRow(row);
+        }}
+      >
+        X
+      </Button>
     ),
   },
 ];

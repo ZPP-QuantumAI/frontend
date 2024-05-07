@@ -22,6 +22,7 @@ export function SelectableDataTable({
   setRowSelection,
   rowIdFun,
   children,
+  meta,
 }) {
   const [sorting, setSorting] = useState([]);
 
@@ -34,6 +35,7 @@ export function SelectableDataTable({
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     state: { rowSelection, sorting },
+    meta: meta,
   });
 
   return (

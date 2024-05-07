@@ -1,10 +1,5 @@
 import { AlgorithmForm } from "@/app_ui/menu/algorithm/AlgorithmForm";
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, test, expect, vi } from "vitest";
 
@@ -16,7 +11,7 @@ describe("AlgorithmForm", async () => {
       <AlgorithmForm
         setSelectedAlgorithm={setSelectedAlgorithm}
         setOpen={setOpen}
-      />
+      />,
     );
 
     fireEvent.change(screen.getByLabelText("Name"), {
@@ -41,7 +36,7 @@ describe("AlgorithmForm", async () => {
       <AlgorithmForm
         setSelectedAlgorithm={setSelectedAlgorithm}
         setOpen={setOpen}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText("Select"));
@@ -57,7 +52,7 @@ describe("AlgorithmForm", async () => {
       <AlgorithmForm
         setSelectedAlgorithm={setSelectedAlgorithm}
         setOpen={setOpen}
-      />
+      />,
     );
 
     fireEvent.change(screen.getByLabelText("Name"), {

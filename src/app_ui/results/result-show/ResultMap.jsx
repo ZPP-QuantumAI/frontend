@@ -1,6 +1,12 @@
 import AntPath from "@/reusable/AntPath";
 import { latLngBounds } from "leaflet";
-import { MapContainer, Marker, TileLayer, ZoomControl, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  TileLayer,
+  ZoomControl,
+  useMap,
+} from "react-leaflet";
 
 export function ResultMap({ result }) {
   const newResult = { ...result };

@@ -1,11 +1,18 @@
 import { columns } from "./columns";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useState } from "react";
-import { get } from "@/lib/requests";
+import { deleteReq, get } from "@/lib/requests";
 import { SelectableDataTable } from "@/reusable/table/SelectableDataTable";
 
 export function GraphsTable({ value, onChange }) {
   const [rowSelection, setRowSelectionLocal] = useState(value);
+  const queryClient = useQueryClient();
+
+  async function deleteGraph(row) {
+    row.toggleSelected(false);
+    await deleteReq(`/graph/?graphId=${row.id}`);
+    queryClient.invalidateQueries({ queryKey: ["graphs"] });
+  }
 
   function setRowSelection(selection) {
     setRowSelectionLocal(selection);
@@ -28,6 +35,7 @@ export function GraphsTable({ value, onChange }) {
       rowSelection={rowSelection}
       setRowSelection={setRowSelection}
       rowIdFun={(row) => row.graph.id}
+      meta={{ deleteRow: deleteGraph }}
     >
       No graphs.
     </SelectableDataTable>
