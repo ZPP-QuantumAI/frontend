@@ -27,6 +27,9 @@ describe("AlgorithmForm", async () => {
     expect(screen.getByLabelText("File").files[0]).toBe(file);
     await waitFor(() => expect(setSelectedAlgorithm).toBeCalled());
     await waitFor(() => expect(setOpen).toBeCalledWith(false));
+
+    expect(screen.getByLabelText("Name").ariaInvalid).toBe("false");
+    expect(screen.getByLabelText("File").ariaInvalid).toBe("false");
   });
 
   test("algorithm form without proper input", async () => {
@@ -43,6 +46,9 @@ describe("AlgorithmForm", async () => {
 
     await waitFor(() => expect(setSelectedAlgorithm).not.toBeCalled());
     await waitFor(() => expect(setOpen).not.toBeCalled());
+
+    expect(screen.getByLabelText("Name").ariaInvalid).toBe("true");
+    expect(screen.getByLabelText("File").ariaInvalid).toBe("true");
   });
 
   test("algorithm form with wrong file format", async () => {
@@ -68,5 +74,8 @@ describe("AlgorithmForm", async () => {
     expect(screen.getByLabelText("File").files.length).toBe(0);
     await waitFor(() => expect(setSelectedAlgorithm).not.toBeCalled());
     await waitFor(() => expect(setOpen).not.toBeCalled());
+
+    expect(screen.getByLabelText("Name").ariaInvalid).toBe("false");
+    expect(screen.getByLabelText("File").ariaInvalid).toBe("true");
   });
 });

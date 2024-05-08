@@ -3,6 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { CellWithDescription } from "@/reusable/table/CellWithDescription";
 import { SortableColumnButton } from "@/reusable/table/button";
 import { SelectColumnCheckBox } from "@/reusable/table/checkbox";
+import { Trash2 } from "lucide-react";
 
 export const columns = [
   {
@@ -37,13 +38,12 @@ export const columns = [
       <Button
         type="button"
         variant="destructive"
-        className="text-black"
         checked={row.getIsSelected()}
         onClick={async () => {
           table.options.meta.deleteRow(row);
         }}
       >
-        X
+        <Trash2 />
       </Button>
     ),
   },
