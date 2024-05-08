@@ -21,7 +21,7 @@ export function AddPackage() {
           Add package
         </MenubarItem>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="min-w-[700px]">
         <DialogHeader>
           <DialogTitle>Add new package</DialogTitle>
         </DialogHeader>
