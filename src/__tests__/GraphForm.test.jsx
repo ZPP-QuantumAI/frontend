@@ -31,6 +31,9 @@ describe("GraphForm", async () => {
         nodes: "0 0\n1.5 1.5\n2 2",
       }),
     );
+
+    expect(screen.getByLabelText("Name").ariaInvalid).toBe("false");
+    expect(screen.getByLabelText("Nodes").ariaInvalid).toBe("false");
   });
 
   test("add graph with wrong nodes", async () => {
@@ -54,5 +57,8 @@ describe("GraphForm", async () => {
 
     await waitFor(() => expect(setOpen).not.toBeCalled());
     await waitFor(() => expect(createGraph).not.toBeCalled());
+
+    expect(screen.getByLabelText("Name").ariaInvalid).toBe("false");
+    expect(screen.getByLabelText("Nodes").ariaInvalid).toBe("true");
   });
 });

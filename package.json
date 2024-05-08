@@ -9,8 +9,11 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test2": "vitest run",
+    "test": "start-server-and-test dev http://localhost:5173 cypress:run",
+    "test:watch": "vitest",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -54,6 +57,7 @@
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "autoprefixer": "^10.4.16",
+    "cypress": "^13.8.1",
     "eslint": "^8.53.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -61,6 +65,7 @@
     "jsdom": "^24.0.0",
     "postcss": "^8.4.33",
     "prettier": "^3.2.5",
+    "start-server-and-test": "^2.0.3",
     "tailwindcss": "^3.4.1",
     "vitest": "^1.5.1"
   }
