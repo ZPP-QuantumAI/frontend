@@ -6,5 +6,7 @@ export default defineConfig({
       // implement node event listeners here
     },
     experimentalStudio: true,
+    viewportHeight: 990,
+    viewportWidth: 1440,
   },
 });
