@@ -1,6 +1,6 @@
 beforeEach(() => {
-  cy.visit("http://localhost:5173/");
-  cy.get("#radix-\\:r4\\:").click();
+  cy.visit("http://localhost:4173/");
+  cy.get("button.flex:nth-child(1)").contains("Algorithm").click();
 });
 
 describe("graph tests", () => {
@@ -12,7 +12,7 @@ describe("graph tests", () => {
 
   it("create and delete map graph, list variant", () => {
     const name = "Cypress test map graph " + Date.now();
-    cy.get("#radix-\\:rk\\:").contains("Graph").realHover();
+    cy.get("button.flex:nth-child(3)").contains("Graph").realHover();
     cy.get("div.relative:nth-child(2)").contains("Add map graph").click();
     cy.get("button.transition-all:nth-child(2)")
       .contains("Add manually")
@@ -42,7 +42,7 @@ describe("run test", () => {
   it("select algorithm and package and run test", () => {
     const name = "Cypress test algorithm " + Date.now();
     const packageName = "Cypress test package " + Date.now();
-    cy.get("#radix-\\:r4\\:").contains("Algorithm");
+    cy.get("button.flex:nth-child(1)").contains("Algorithm").realHover();
     cy.get("div.cursor-default:nth-child(1)")
       .contains("Select algorithm")
       .click();
@@ -67,7 +67,7 @@ function createPackage(name) {
   createEuclideanGraph(euclideanGraph);
   createMapGraph(mapGraph);
 
-  cy.get("#radix-\\:rc\\:").contains("Package").realHover();
+  cy.get("button.flex:nth-child(2)").contains("Package").realHover();
   cy.get("div.cursor-default:nth-child(1)").contains("Add package").click();
   cy.get("input.flex").type(name);
   selectGraph(euclideanGraph);
@@ -81,7 +81,7 @@ function createPackage(name) {
 }
 
 function deletePackage(name) {
-  cy.get("#radix-\\:rc\\:").contains("Package").realHover();
+  cy.get("button.flex:nth-child(2)").contains("Package").realHover();
   cy.get("div.relative:nth-child(2)").contains("Select packages").click();
   cy.get(
     ".h-full > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)"
@@ -95,7 +95,7 @@ function deletePackage(name) {
 }
 
 function selectPackage(name) {
-  cy.get("#radix-\\:rc\\:").contains("Package").realHover();
+  cy.get("button.flex:nth-child(2)").contains("Package").realHover();
   cy.get("div.relative:nth-child(2)").contains("Select packages").click();
   cy.get(
     ".h-full > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)"
@@ -108,7 +108,7 @@ function selectPackage(name) {
 }
 
 function createEuclideanGraph(name) {
-  cy.get("#radix-\\:rk\\:").contains("Graph").realHover();
+  cy.get("button.flex:nth-child(3)").contains("Graph").realHover();
   cy.get("div.cursor-default:nth-child(1)")
     .contains("Add euclidean graph")
     .click();
@@ -119,7 +119,7 @@ function createEuclideanGraph(name) {
 }
 
 function createMapGraph(name) {
-  cy.get("#radix-\\:rk\\:").contains("Graph").realHover();
+  cy.get("button.flex:nth-child(3)").contains("Graph").realHover();
   cy.get("div.relative:nth-child(2)").contains("Add map graph").click();
   cy.get("input.flex").type(name);
   cy.get(".h-\\[40vh\\]").click();
@@ -128,7 +128,7 @@ function createMapGraph(name) {
 }
 
 function deleteGraph(name) {
-  cy.get("#radix-\\:rc\\:").contains("Package").realHover();
+  cy.get("button.flex:nth-child(2)").contains("Package").realHover();
   cy.get("div.cursor-default:nth-child(1)").contains("Add package").click();
   deleteGraphIn(name);
 }
