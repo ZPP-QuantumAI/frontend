@@ -58,6 +58,7 @@ describe("run test", () => {
     cy.get("button.justify-center:nth-child(7)").click();
     cy.get(".\\[\\&_tr\\:last-child\\]\\:border-0 > tr:nth-child(1)").contains(name);
     cy.get(".\\[\\&_tr\\:last-child\\]\\:border-0 > tr:nth-child(1)").contains(packageName);
+    cy.get(".lucide-check");
   });
 });
 

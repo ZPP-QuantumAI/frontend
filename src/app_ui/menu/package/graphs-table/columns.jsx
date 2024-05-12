@@ -44,8 +44,8 @@ export const columns = [
       <Button
         type="button"
         variant="destructive"
-        checked={row.getIsSelected()}
-        onClick={async () => {
+        onClick={async (e) => {
+          e.stopPropagation();
           table.options.meta.deleteRow(row);
         }}
       >
