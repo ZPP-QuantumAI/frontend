@@ -48,7 +48,7 @@ describe("run test", () => {
       .click();
     cy.get("div.space-y-2:nth-child(1) > input:nth-child(2)").type(name);
     cy.get("div.space-y-2:nth-child(2) > input:nth-child(2)").selectFile(
-      "cypress/fixtures/run.zip"
+      "cypress/fixtures/run.zip",
     );
     cy.get(".bg-primary").contains("Select").click();
     cy.get(".bg-primary").should("not.exist");
@@ -56,8 +56,12 @@ describe("run test", () => {
     selectPackage(packageName);
     deletePackage(packageName);
     cy.get("button.justify-center:nth-child(7)").click();
-    cy.get(".\\[\\&_tr\\:last-child\\]\\:border-0 > tr:nth-child(1)").contains(name);
-    cy.get(".\\[\\&_tr\\:last-child\\]\\:border-0 > tr:nth-child(1)").contains(packageName);
+    cy.get(".\\[\\&_tr\\:last-child\\]\\:border-0 > tr:nth-child(1)").contains(
+      name,
+    );
+    cy.get(".\\[\\&_tr\\:last-child\\]\\:border-0 > tr:nth-child(1)").contains(
+      packageName,
+    );
     cy.get(".lucide-check");
   });
 });
@@ -85,7 +89,7 @@ function deletePackage(name) {
   cy.get("button.flex:nth-child(2)").contains("Package").realHover();
   cy.get("div.relative:nth-child(2)").contains("Select packages").click();
   cy.get(
-    ".h-full > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)"
+    ".h-full > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)",
   )
     .contains(name)
     .parent()
@@ -99,7 +103,7 @@ function selectPackage(name) {
   cy.get("button.flex:nth-child(2)").contains("Package").realHover();
   cy.get("div.relative:nth-child(2)").contains("Select packages").click();
   cy.get(
-    ".h-full > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)"
+    ".h-full > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)",
   )
     .contains(name)
     .parent()
@@ -142,7 +146,7 @@ function deleteGraphIn(name) {
 function getGraph(name) {
   return cy
     .get(
-      "div.rounded-md:nth-child(2) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)"
+      "div.rounded-md:nth-child(2) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)",
     )
     .contains(name)
     .parent()
